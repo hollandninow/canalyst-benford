@@ -2,29 +2,19 @@ const axios = require('axios');
 const queryMDS = require('./queryMDS')
 
 class queryMDSCompanyList extends queryMDS {
-  constructor() {
-    super();
-
-    this.APIQueryURL = `${this.APIRootURL}companies/?format=csv`
-
-    const instance = axios.create({
-      baseURL: this.APIQueryURL,
-      timeout: 1000,
-      headers: {
-        Authorization: 'Bearer ' + token,
-      }
-    })
-  }
+  constructor(token) {
+    super(token);
+    this.APIQueryURL = 'companies/?format=csv'
+}
 
   async getCompanyListCSV() {
     try {
-      const res = await axios({
-        method: 'GET',
-        url: this.APIQueryURL,
-        data
-      })
+      const res = await this.instance.get(this.APIQueryURL)
+      return res.data;
     } catch (err) {
-
+      console.log(err);
     }
   }
 }
+
+module.exports = queryMDSCompanyList;
