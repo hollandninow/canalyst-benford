@@ -1,14 +1,16 @@
 const initConfig = require('./initConfig');
 const queryMDSCompanyList = require('./queryMDSCompanyList');
+const queryMDSCompanyBulkData = require('./queryMDSCompanyBulkData')
 
 const main = async () => {
   new initConfig('./config.env');
 
   const token = process.env.CANALYST_JWT;
 
-  const query = await new queryMDSCompanyList(token).getCompanyListCSV();
+  const companyList = await new queryMDSCompanyList(token).getCompanyList();
 
-  console.log(query);
+  const companyBulkData = await new queryMDSCompanyBulkData(token, '9KL2F10102', 'Q1-2023.21').getCompanyBulkDataCSV();
+
 };
 
 main();

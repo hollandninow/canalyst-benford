@@ -1,15 +1,14 @@
-const axios = require('axios');
 const queryMDS = require('./queryMDS')
 
 class queryMDSCompanyList extends queryMDS {
   constructor(token) {
     super(token);
-    this.APIQueryURL = 'companies/?format=csv'
+    this.APIQueryURL = 'companies/?format='
 }
 
-  async getCompanyListCSV() {
+  async getCompanyList(fileFormatStr = 'json') {
     try {
-      const res = await this.instance.get(this.APIQueryURL)
+      const res = await this.instance.get(this.APIQueryURL + fileFormatStr)
       return res.data;
     } catch (err) {
       console.log(err);
