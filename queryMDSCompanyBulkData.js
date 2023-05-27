@@ -4,7 +4,7 @@ class queryMDSCompanyBulkData extends queryMDS {
   constructor(token, csin, modelVersion) {
     super(token);
     this.APIQueryURL = `equity-model-series/${csin}/equity-models/${modelVersion}/bulk-data/historical-data.csv?format=json`
-}
+  }
 
   async getCompanyBulkDataCSV() {
     try {

@@ -10,7 +10,6 @@ const main = async () => {
   const companyList = await new queryMDSCompanyList(token).getCompanyList();
 
   const companyBulkData = await new queryMDSCompanyBulkData(token, '9KL2F10102', 'Q1-2023.21').getCompanyBulkDataCSV();
-
 };
 
 main();
