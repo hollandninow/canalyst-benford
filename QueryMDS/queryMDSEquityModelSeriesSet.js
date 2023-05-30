@@ -1,4 +1,4 @@
-const QueryMDS = require('./QueryMDS')
+const QueryMDS = require('./queryMDS')
 
 class QueryMDSEquityModelSeriesSet extends QueryMDS {
   constructor(token, companyId) {

@@ -1,4 +1,4 @@
-const QueryMDS = require('./QueryMDS')
+const QueryMDS = require('./queryMDS')
 
 class QueryMDSCompanyBulkData extends QueryMDS {
   constructor(token, csin, modelVersion) {
