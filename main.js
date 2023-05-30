@@ -4,24 +4,23 @@ const Papa = require('papaparse')
 
 
 const initConfig = require('./initConfig');
-const queryMDSCompanyList = require('./queryMDS/queryMDSCompanyList');
-const queryMDSCompanyBulkData = require('./queryMDS/queryMDSCompanyBulkData');
-const queryMDSEquityModelSeriesSet = require('./queryMDS/queryMDSEquityModelSeriesSet');
+const QueryMDSCompanyList = require('./QueryMDS/QueryMDSCompanyList');
+const QueryMDSCompanyBulkData = require('./QueryMDS/QueryMDSCompanyBulkData');
+const QueryMDSEquityModelSeriesSet = require('./QueryMDS/QueryMDSEquityModelSeriesSet');
+const CompanyList = require('./CompanyList/CompanyList');
 
 const main = async () => {
   new initConfig('./config.env');
 
   const token = process.env.CANALYST_JWT;
 
-  const companyList = await new queryMDSCompanyList(token).getCompanyList('csv');
+  const companyList = await new QueryMDSCompanyList(token).getCompanyList('csv');
 
-  // const companyBulkData = await new queryMDSCompanyBulkData(token, '9KL2F10102', 'Q1-2023.21').getCompanyBulkDataCSV();
+  // const companyBulkData = await new QueryMDSCompanyBulkData(token, '9KL2F10102', 'Q1-2023.21').getCompanyBulkDataCSV();
 
-  const csvData = Papa.parse(companyList, {header:true}).data;
+  const companyId = new CompanyList(companyList).getCompanyIdFromTicker('MA US', 'Bloomberg');
 
-  const companyId = csvData.filter(data => data.Bloomberg === 'CACC US')[0].company_id
-
-  const equityModelSeriesSet = await new queryMDSEquityModelSeriesSet(token, companyId).getEquityModelSeriesSet();
+  const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(token, companyId).getEquityModelSeriesSet();
 
   const csin = equityModelSeriesSet.results[0].csin;
   const modelVersion = equityModelSeriesSet.results[0].latest_equity_model.model_version.name;

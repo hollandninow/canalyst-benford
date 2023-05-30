@@ -1,6 +1,6 @@
-const queryMDS = require('./queryMDS')
+const QueryMDS = require('./QueryMDS')
 
-class queryMDSCompanyList extends queryMDS {
+class QueryMDSCompanyList extends QueryMDS {
   constructor(token) {
     super(token);
     this.APIQueryURL = 'companies/?format='
@@ -16,4 +16,4 @@ class queryMDSCompanyList extends queryMDS {
   }
 }
 
-module.exports = queryMDSCompanyList;
+module.exports = QueryMDSCompanyList;

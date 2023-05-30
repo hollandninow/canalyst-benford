@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-class queryMDS {
+class QueryMDS {
   APIRootURL = 'https://mds.canalyst.com/api/';
 
   constructor(token) {
@@ -14,4 +14,4 @@ class queryMDS {
   }
 }
 
-module.exports = queryMDS;
+module.exports = QueryMDS;

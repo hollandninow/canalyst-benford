@@ -1,6 +1,6 @@
-const queryMDS = require('./queryMDS')
+const QueryMDS = require('./QueryMDS')
 
-class queryMDSCompanyBulkData extends queryMDS {
+class QueryMDSCompanyBulkData extends QueryMDS {
   constructor(token, csin, modelVersion) {
     super(token);
     this.APIQueryURL = `equity-model-series/${csin}/equity-models/${modelVersion}/bulk-data/historical-data.csv?format=json`
@@ -16,4 +16,4 @@ class queryMDSCompanyBulkData extends queryMDS {
   }
 }
 
-module.exports = queryMDSCompanyBulkData;
+module.exports = QueryMDSCompanyBulkData;
