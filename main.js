@@ -1,6 +1,6 @@
 const initConfig = require('./initConfig');
-const queryMDSCompanyList = require('./queryMDSCompanyList');
-const queryMDSCompanyBulkData = require('./queryMDSCompanyBulkData')
+const queryMDSCompanyList = require('./QueryMDS/queryMDSCompanyList');
+const queryMDSCompanyBulkData = require('./QueryMDS/queryMDSCompanyBulkData')
 
 const main = async () => {
   new initConfig('./config.env');
