@@ -1,8 +1,8 @@
-const Papa = require('papaparse');
+const DataCSV = require('./dataCSV');
 
-class CompanyList {
+class CompanyList extends DataCSV {
   constructor(companyListCSV) {
-    this.companyListData = Papa.parse(companyListCSV, {header:true}).data;
+    super(companyListCSV);
   }
 
   /**
@@ -12,7 +12,7 @@ class CompanyList {
    * @returns {string} first 6 digits of CSIN corresponding to the ticker fed as parameter
    */
   getCompanyIdFromTicker(ticker, tickerType) {
-    return this.companyListData.filter(data=> data[tickerType] === ticker)[0].company_id;
+    return this.data.filter(data=> data[tickerType] === ticker)[0].company_id;
   }
 }
 
