@@ -13,8 +13,6 @@ class LeadingDigitCounter {
       total: 0,
     };
 
-    console.log(array);
-
     array.forEach(value => {
       const valueStr = value < 0 ? `${value * -1}` : `${value}`;
       const valueStrArr = valueStr.split('');

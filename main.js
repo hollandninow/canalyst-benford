@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const initConfig = require('./initConfig');
 const QueryMDSCompanyList = require('./queryMDS/queryMDSCompanyList');
 const QueryMDSCompanyBulkData = require('./queryMDS/queryMDSCompanyBulkData');
@@ -8,6 +6,7 @@ const CompanyList = require('./dataCSV/companyList');
 const CompanyBulkData = require('./dataCSV/companyBulkData');
 const EquityModelSeriesSet = require('./equityModelSeriesSet/equityModelSeriesSet');
 const LeadingDigitCounter = require('./helpers/leadingDigitCounter');
+const { calculateLeadingDigitFrequencies } = require('./helpers/leadingDigitFrequency');
 
 const main = async () => {
   new initConfig('./config.env');
@@ -29,24 +28,18 @@ const main = async () => {
 
   const companyDataObj = new CompanyBulkData(companyBulkDataCSV)
 
-  const companyData = companyDataObj.getBulkData();
-
   const companyIncomeStatementData = companyDataObj.getFinancialStatementData('Income Statement As Reported');
   const companyBalanceSheetData = companyDataObj.getFinancialStatementData('Balance Sheet');
   const companyCashFlowStatementData = companyDataObj.getFinancialStatementData('Cash Flow Statement');
-
-  // console.log(companyIncomeStatementData);
-  // console.log(companyBalanceSheetData);
-  // console.log(companyCashFlowStatementData);
 
   const digitCounter = new LeadingDigitCounter(); 
   const incomeStatementDigits = digitCounter.countLeadingDigits(companyIncomeStatementData);
   const balanceSheetDigits = digitCounter.countLeadingDigits(companyBalanceSheetData);
   const cashFlowStatementDigits = digitCounter.countLeadingDigits(companyCashFlowStatementData);
 
-  console.log(incomeStatementDigits);
-  console.log(balanceSheetDigits);
-  console.log(cashFlowStatementDigits);
+  console.log(incomeStatementDigits, calculateLeadingDigitFrequencies(incomeStatementDigits));
+  console.log(balanceSheetDigits, calculateLeadingDigitFrequencies(balanceSheetDigits));
+  console.log(cashFlowStatementDigits, calculateLeadingDigitFrequencies(cashFlowStatementDigits));
 };
 
 main();
