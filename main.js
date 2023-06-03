@@ -7,6 +7,7 @@ const QueryMDSEquityModelSeriesSet = require('./queryMDS/queryMDSEquityModelSeri
 const CompanyList = require('./dataCSV/companyList');
 const CompanyBulkData = require('./dataCSV/companyBulkData');
 const EquityModelSeriesSet = require('./equityModelSeriesSet/equityModelSeriesSet');
+const LeadingDigitCounter = require('./helpers/leadingDigitCounter');
 
 const main = async () => {
   new initConfig('./config.env');
@@ -34,9 +35,18 @@ const main = async () => {
   const companyBalanceSheetData = companyDataObj.getFinancialStatementData('Balance Sheet');
   const companyCashFlowStatementData = companyDataObj.getFinancialStatementData('Cash Flow Statement');
 
-  console.log(companyIncomeStatementData);
-  console.log(companyBalanceSheetData);
-  console.log(companyCashFlowStatementData);
+  // console.log(companyIncomeStatementData);
+  // console.log(companyBalanceSheetData);
+  // console.log(companyCashFlowStatementData);
+
+  const digitCounter = new LeadingDigitCounter(); 
+  const incomeStatementDigits = digitCounter.countLeadingDigits(companyIncomeStatementData);
+  const balanceSheetDigits = digitCounter.countLeadingDigits(companyBalanceSheetData);
+  const cashFlowStatementDigits = digitCounter.countLeadingDigits(companyCashFlowStatementData);
+
+  console.log(incomeStatementDigits);
+  console.log(balanceSheetDigits);
+  console.log(cashFlowStatementDigits);
 };
 
 main();
