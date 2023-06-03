@@ -15,7 +15,7 @@ const main = async () => {
 
   const companyListCSV = await new QueryMDSCompanyList(token).getCompanyList('csv');
   
-  const companyId = new CompanyList(companyListCSV).getCompanyIdFromTicker('V US', 'Bloomberg');
+  const companyId = new CompanyList(companyListCSV).getCompanyIdFromTicker('TBRD CN', 'Bloomberg');
   
   const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(token, companyId).getEquityModelSeriesSet();
 
@@ -37,9 +37,9 @@ const main = async () => {
   const balanceSheetDigits = digitCounter.countLeadingDigits(companyBalanceSheetData);
   const cashFlowStatementDigits = digitCounter.countLeadingDigits(companyCashFlowStatementData);
 
-  console.log(incomeStatementDigits, calculateLeadingDigitFrequencies(incomeStatementDigits));
-  console.log(balanceSheetDigits, calculateLeadingDigitFrequencies(balanceSheetDigits));
-  console.log(cashFlowStatementDigits, calculateLeadingDigitFrequencies(cashFlowStatementDigits));
+  console.log('IS:', incomeStatementDigits, calculateLeadingDigitFrequencies(incomeStatementDigits));
+  console.log('BS:', balanceSheetDigits, calculateLeadingDigitFrequencies(balanceSheetDigits));
+  console.log('CFS:', cashFlowStatementDigits, calculateLeadingDigitFrequencies(cashFlowStatementDigits));
 };
 
 main();

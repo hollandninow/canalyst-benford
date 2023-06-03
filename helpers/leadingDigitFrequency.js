@@ -9,10 +9,17 @@ exports.calculateLeadingDigitFrequencies = function(distributionObj) {
     7: 0,
     8: 0,
     9: 0,
+    total: 0,
   };
 
   for (const prop in distributionFrequencyObj) {
-    distributionFrequencyObj[prop] = distributionObj[prop] / distributionObj['total'];
+    if (prop !== 'total')
+      distributionFrequencyObj[prop] = distributionObj[prop] / distributionObj['total'];
+  }
+
+  for (const prop in distributionFrequencyObj) {
+    if (prop !== 'total')
+      distributionFrequencyObj['total'] += distributionFrequencyObj[prop];
   }
 
   return distributionFrequencyObj;
