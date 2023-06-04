@@ -26,6 +26,7 @@
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "json-stream-stringify": "^3.0.1",
-    "papaparse": "^5.4.1"
+    "papaparse": "^5.4.1",
+    "plotly.js-dist": "^2.23.2"
   }
 }
