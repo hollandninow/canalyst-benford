@@ -6,25 +6,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+<style>
+  h1 {
+    font-family: "Open Sans", verdana, arial, sans-serif;
+    font-weight: 400;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
 <body>
+  <h1>Benford's Law Analysis: AAPL US</h1>
   <script src="https://cdn.plot.ly/plotly-2.20.0.min.js" charset="utf-8"></script>
-  <div id="myDiv" style="width:1000px;height:400px;"></div>
+  <div id="myDiv1" style="width:1000px;height:400px;"></div>
+  <div id="myDiv2" style="width:1000px;height:400px;"></div>
+  <div id="myDiv3" style="width:1000px;height:400px;"></div>
   <script>
     const xValue = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-    const yValue = [0.313588850174216, 0.17305458768873402, 0.16260162601626016, 0.08362369337979095, 0.06968641114982578, 0.06736353077816493, 0.0545876887340302, 0.03368176538908246, 0.041811846689895474];
-    
-    const yValue2 = [];
-
+    // Benford frequencies
+    const yBenford = [];
     for(let i = 1; i < 10; i++) {
-      yValue2.push( Math.log10(1 + (1/i)));
+      yBenford.push( Math.log10(1 + (1/i)));
     }
-
-    const trace1 = {
+    
+    const benford = {
       x: xValue,
-      y: yValue,
+      y: yBenford,
       type: 'bar',
-      text: yValue.map(String),
+      text: yBenford.map(String),
+      textposition: 'auto',
+      name: 'Expected Frequency',
+      hoverinfo: 'none',
+      marker: {
+        color: 'rgba(58,200,225,.5)',
+        line: {
+          color: 'rgb(8,48,107)',
+          width: 1.5
+        }
+      }
+    };
+
+    // Data set 1
+
+    const yValue1 = [0.313588850174216, 0.17305458768873402, 0.16260162601626016, 0.08362369337979095, 0.06968641114982578, 0.06736353077816493, 0.0545876887340302, 0.03368176538908246, 0.041811846689895474];
+    const chart1 = {
+      x: xValue,
+      y: yValue1,
+      type: 'bar',
+      text: yValue1.map(String),
+      textposition: 'auto',
+      name: 'Actual Frequency',
+      hoverinfo: 'none',
+      opacity: 0.5,
+      marker: {
+        color: 'rgb(158,202,225)',
+        line: {
+          color: 'rgb(8,48,107)',
+          width: 1.5
+        }
+      }
+    };
+    
+    const data1 = [chart1,benford];
+
+    const layout1 = {
+      title: 'Income Statement as Reported'
+    };
+
+    Plotly.newPlot('myDiv1', data1, layout1);
+
+    // Data set 2
+    
+    const yValue2 = [0.313588850174216, 0.17305458768873402, 0.16260162601626016, 0.08362369337979095, 0.06968641114982578, 0.06736353077816493, 0.0545876887340302, 0.03368176538908246, 0.041811846689895474];
+    
+    const chart2 = {
+      x: xValue,
+      y: yValue2,
+      type: 'bar',
+      text: yValue2.map(String),
       textposition: 'auto',
       name: 'Actual Frequency',
       hoverinfo: 'none',
@@ -38,16 +101,29 @@
       }
     };
 
-    const trace2 = {
+    const data2 = [chart2,benford];
+
+    const layout2 = {
+      title: 'Balance Sheet'
+    };
+
+    Plotly.newPlot('myDiv2', data2, layout2);
+
+    // Data set 3
+    
+    const yValue3 = [0.313588850174216, 0.17305458768873402, 0.16260162601626016, 0.08362369337979095, 0.06968641114982578, 0.06736353077816493, 0.0545876887340302, 0.03368176538908246, 0.041811846689895474];
+    
+    const chart3 = {
       x: xValue,
-      y: yValue2,
+      y: yValue3,
       type: 'bar',
-      text: yValue2.map(String),
+      text: yValue3.map(String),
       textposition: 'auto',
-      name: 'Expected Frequency',
+      name: 'Actual Frequency',
       hoverinfo: 'none',
+      opacity: 0.5,
       marker: {
-        color: 'rgba(58,200,225,.5)',
+        color: 'rgb(158,202,225)',
         line: {
           color: 'rgb(8,48,107)',
           width: 1.5
@@ -55,13 +131,14 @@
       }
     };
 
-    const data = [trace1,trace2];
+    const data3 = [chart3,benford];
 
-    const layout = {
-      title: 'Benford\'s Law Analysis'
+    const layout3 = {
+      title: 'Cash Flow Statement'
     };
+    
+    Plotly.newPlot('myDiv3', data3, layout3);
 
-    Plotly.newPlot('myDiv', data, layout);
   </script>
 </body>
 </html>
