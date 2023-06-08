@@ -11,7 +11,7 @@ class QueryMDSCompanyList extends QueryMDS {
       const res = await this.instance.get(this.APIQueryURL + fileFormatStr)
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(`${err.code}: ${err.message}`);
     }
   }
 }
