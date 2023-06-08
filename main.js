@@ -16,7 +16,7 @@ const main = async () => {
     'Adjusted Numbers As Reported',
   ];
 
-  const bAnalysis = new BenfordAnalysis(token, 'JPM US', 'Bloomberg');
+  const bAnalysis = new BenfordAnalysis(token, 'IDT US', 'Bloomberg');
 
   const benfordData = [];
   for(let i = 0; i < financialStatements.length; i++) {
@@ -29,7 +29,6 @@ const main = async () => {
 
   const chartCodeArr = bVisualizer.bundleChartCode(benfordData);
 
-  // Save chart
   const baseHTML = bVisualizer.createBaseHTML(chartCodeArr, benfordData[0].ticker);
 
   fs.writeFileSync(`./outputHTML/${benfordData[0].ticker}-bar-chart.html`, baseHTML);
