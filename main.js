@@ -13,9 +13,10 @@ const main = async () => {
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',
+    'Adjusted Numbers As Reported',
   ];
 
-  const bAnalysis = new BenfordAnalysis(token, 'BAC US', 'Bloomberg');
+  const bAnalysis = new BenfordAnalysis(token, 'RY CN', 'Bloomberg');
 
   const benfordData = [];
   for(let i = 0; i < financialStatements.length; i++) {
@@ -26,12 +27,9 @@ const main = async () => {
 
   const bVisualizer = new BenfordVisualizer();
 
-  const chartCodeArr = [];
+  const chartCodeArr = bVisualizer.bundleChartCode(benfordData);
 
-  benfordData.forEach((dataObj, i) => {
-    chartCodeArr.push(bVisualizer.createChartCode(dataObj, i));
-  });
-
+  // Save chart
   const baseHTML = bVisualizer.createBaseHTML(chartCodeArr, benfordData[0].ticker);
 
   fs.writeFileSync(`./outputHTML/${benfordData[0].ticker}-bar-chart.html`, baseHTML);

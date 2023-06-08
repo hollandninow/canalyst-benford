@@ -36,6 +36,16 @@ class BenfordVisualizer {
     return chartCode;
   }
 
+  bundleChartCode(chartDataArray) {
+    const chartCodeArray = [];
+
+    chartDataArray.forEach((dataObj, i) => {
+      chartCodeArray.push(this.createChartCode(dataObj, i));
+    });
+
+    return chartCodeArray;
+  }
+
   createBaseHTML(chartCodeArr, ticker) {
     let chartCodeArrStr = '';
 
