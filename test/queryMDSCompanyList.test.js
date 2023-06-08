@@ -16,9 +16,11 @@ describe('QueryMDSCompanyList', () => {
   it('should retrieve a file that is defined', async () => {
 
     const query = new QueryMDSCompanyList(token);
-    const data = await query.getCompanyList('csv');
+    const dataCSV = await query.getCompanyList('csv');
+    const dataJSON = await query.getCompanyList();
 
-    expect(data).toBeDefined();
+    expect(dataCSV).toBeDefined();
+    expect(dataJSON).toBeDefined();
   });
 
 });
