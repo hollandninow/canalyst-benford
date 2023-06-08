@@ -16,7 +16,7 @@ class BenfordVisualizer {
           name: 'Actual Frequency',
           hoverinfo: 'none',
           marker: {
-            color: 'rgb(106,228,255)',
+            color: '#3377FF',
             line: {
               color: 'rgb(8,48,107)',
               width: 1.5
