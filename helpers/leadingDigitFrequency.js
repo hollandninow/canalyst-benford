@@ -1,4 +1,4 @@
-exports.calculateLeadingDigitFrequencies = function(distributionObj) {
+exports.calculateLeadingDigitFrequencies = function(distributionObj, options) {
     const distributionFrequencyObj = {
     1: 0,
     2: 0,
@@ -20,6 +20,12 @@ exports.calculateLeadingDigitFrequencies = function(distributionObj) {
   for (const prop in distributionFrequencyObj) {
     if (prop !== 'total')
       distributionFrequencyObj['total'] += distributionFrequencyObj[prop];
+  }
+
+  if (options.rounded === true) {
+    for(const prop in distributionFrequencyObj) {
+      distributionFrequencyObj[prop] = (Math.round(distributionFrequencyObj[prop] * 10000) / 10000).toFixed(4);
+    }
   }
 
   return distributionFrequencyObj;

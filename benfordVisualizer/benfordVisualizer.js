@@ -1,15 +1,5 @@
-const fs = require('fs');
-const {convertObjectToString} = require('../helpers/convertObjectToString');
-// const { baseMarkupTemplate, chartMarkupTemplate } = require('./markupTemplate');
-
 class BenfordVisualizer {
-  constructor() {
-    // this.baseMarkupTemplate = fs.readFileSync(`${__dirname}/../templates/template-base.html`, 'utf-8');
-    // this.chartMarkupTemplate = fs.readFileSync(`${__dirname}/../templates/template-chart.html`, 'utf-8');
-  }
-
   createChartCode(benfordObj, index) {
-    // console.log('benford object ', benfordObj );
     const frequencyDataArray = Object.keys(benfordObj.frequencyData).map(bucket => benfordObj.frequencyData[bucket]);
 
     const frequencyDataArrayStr = `[${frequencyDataArray.toString()}]`;
@@ -53,15 +43,11 @@ class BenfordVisualizer {
       chartCodeArrStr += str;
     });
 
-    console.log(chartCodeArrStr);
-
     let chartDivArrStr = '';
 
     for(let i = 0; i < chartCodeArr.length; i++) {
       chartDivArrStr += `<div id="myDiv${i}" style="width:1000px;height:400px;"></div>`;
     }
-
-    console.log(chartDivArrStr);
 
     const baseHTML = `
     <!DOCTYPE html>

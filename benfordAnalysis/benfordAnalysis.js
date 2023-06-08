@@ -41,7 +41,7 @@ class BenfordAnalysis {
     const digitCounter = new LeadingDigitCounter(); 
     benfordObj.data = digitCounter.countLeadingDigits(financialStatementData);
 
-    benfordObj.frequencyData = calculateLeadingDigitFrequencies(benfordObj.data);
+    benfordObj.frequencyData = calculateLeadingDigitFrequencies(benfordObj.data, {rounded: true});
 
     return benfordObj;
   }

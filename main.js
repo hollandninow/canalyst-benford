@@ -15,7 +15,7 @@ const main = async () => {
     'Cash Flow Statement',
   ];
 
-  const bAnalysis = new BenfordAnalysis(token, 'GOOGL US', 'Bloomberg');
+  const bAnalysis = new BenfordAnalysis(token, 'BAC US', 'Bloomberg');
 
   const benfordData = [];
   for(let i = 0; i < financialStatements.length; i++) {
@@ -23,8 +23,6 @@ const main = async () => {
 
     benfordData[i] = await bAnalysis.performAnalysis(financialStatementStr);
   }
-
-  console.log(benfordData);
 
   const bVisualizer = new BenfordVisualizer();
 
@@ -36,7 +34,9 @@ const main = async () => {
 
   const baseHTML = bVisualizer.createBaseHTML(chartCodeArr, benfordData[0].ticker);
 
-  fs.writeFileSync(`./outputHTML/charts-${benfordData[0].ticker}.html`, baseHTML);
+  fs.writeFileSync(`./outputHTML/${benfordData[0].ticker}-bar-chart.html`, baseHTML);
+
+  console.log('Benford Analysis complete.');
 };
 
 main();
