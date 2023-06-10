@@ -16,7 +16,7 @@ const main = async () => {
     'Adjusted Numbers As Reported',
   ];
 
-  const bAnalysis = new BenfordAnalysis(token, 'IDT US', 'Bloomberg');
+  const bAnalysis = new BenfordAnalysis(token, 'SIVB US', 'Bloomberg');
 
   const benfordData = [];
   for(let i = 0; i < financialStatements.length; i++) {

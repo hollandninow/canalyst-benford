@@ -21,6 +21,7 @@ class BenfordAnalysis {
       financialStatement: financialStatementStr,
     };
 
+    // query controller for throttling
     const companyListCSV = await new QueryMDSCompanyList(this.token).getCompanyList('csv');
   
     const companyId = new CompanyList(companyListCSV).getCompanyIdFromTicker(this.ticker, this.tickerType);
@@ -34,9 +35,7 @@ class BenfordAnalysis {
 
     const companyBulkDataCSV = await new QueryMDSCompanyBulkData(this.token, benfordObj.csin, benfordObj.modelVersion).getCompanyBulkDataCSV();
 
-    const companyDataObj = new CompanyBulkData(companyBulkDataCSV)
-
-    const financialStatementData = companyDataObj.getFinancialStatementData(financialStatementStr);
+    const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
 
     const digitCounter = new LeadingDigitCounter(); 
     benfordObj.data = digitCounter.countLeadingDigits(financialStatementData);
