@@ -9,21 +9,12 @@ const main = async () => {
 
   const token = process.env.CANALYST_JWT;
 
-  const financialStatements = [
+    const benfordData = await new BenfordAnalysis(token, 'FRC US', 'Bloomberg').performMultipleAnalyses([
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',
     'Adjusted Numbers As Reported',
-  ];
-
-  const bAnalysis = new BenfordAnalysis(token, 'SIVB US', 'Bloomberg');
-
-  const benfordData = [];
-  for(let i = 0; i < financialStatements.length; i++) {
-    const financialStatementStr = financialStatements[i];
-
-    benfordData[i] = await bAnalysis.performAnalysis(financialStatementStr);
-  }
+  ]);
 
   const bVisualizer = new BenfordVisualizer();
 

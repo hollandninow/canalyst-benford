@@ -14,6 +14,18 @@ class BenfordAnalysis {
     this.tickerType = tickerType;
   }
 
+  async performMultipleAnalyses(fsStringArray) {
+    const benfordData = [];
+
+    for(let i = 0; i < fsStringArray.length; i++) {
+      const financialStatementStr = fsStringArray[i];
+
+      benfordData[i] = await this.performAnalysis(financialStatementStr);
+    }
+
+    return benfordData;
+  }
+
   async performAnalysis(financialStatementStr) {
     const benfordObj = {
       ticker: this.ticker,
