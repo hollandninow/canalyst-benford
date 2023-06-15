@@ -6,7 +6,7 @@ const BenfordVisualizer = require('./benfordVisualizer/benfordVisualizer');
 const main = async () => {
   new initConfig('./config.env');
 
-  const benfordData = await new BenfordAnalysis(process.env.CANALYST_JWT, 'MKL US', 'Bloomberg').performMultipleAnalyses([
+  const benfordData = await new BenfordAnalysis(process.env.CANALYST_JWT, 'BN/A CN', 'Bloomberg').performMultipleAnalyses([
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',
