@@ -34,7 +34,7 @@ class BenfordAnalysis {
     };
 
     // query controller for throttling
-    const companyListCSV = await new QueryMDSCompanyList(this.token).getCompanyList('csv');
+    const companyListCSV = await new QueryMDSCompanyList(this.token).getCompanyList({format: 'csv'});
   
     const companyId = new CompanyList(companyListCSV).getCompanyIdFromTicker(this.ticker, this.tickerType);
     

@@ -6,9 +6,11 @@ class QueryMDSCompanyList extends QueryMDS {
     this.APIQueryURL = 'companies/?format='
 }
 
-  async getCompanyList(fileFormatStr = 'json') {
+  async getCompanyList(options) {
+    options = options || {};
+
     try {
-      const res = await this.instance.get(this.APIQueryURL + fileFormatStr)
+      const res = await this.instance.get(this.APIQueryURL + options.format)
       return res.data;
     } catch (err) {
       console.error(`${err.code}: ${err.message}`);
