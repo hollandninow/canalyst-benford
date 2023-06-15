@@ -48,9 +48,8 @@ class BenfordAnalysis {
     const companyBulkDataCSV = await new QueryMDSCompanyBulkData(this.token, benfordObj.csin, benfordObj.modelVersion).getCompanyBulkDataCSV();
 
     const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
-
-    const digitCounter = new LeadingDigitCounter(); 
-    benfordObj.data = digitCounter.countLeadingDigits(financialStatementData);
+ 
+    benfordObj.data = new LeadingDigitCounter().countLeadingDigits(financialStatementData);
 
     benfordObj.frequencyData = calculateLeadingDigitFrequencies(benfordObj.data, {rounded: true});
 
