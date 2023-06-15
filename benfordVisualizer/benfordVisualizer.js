@@ -1,11 +1,12 @@
 class BenfordVisualizer {
+
   createChartCode(benfordObj, index) {
     const frequencyDataArray = Object.keys(benfordObj.frequencyData).map(bucket => benfordObj.frequencyData[bucket]);
 
     const frequencyDataArrayStr = `[${frequencyDataArray.toString()}]`;
     
-    const chartCode = 
-        `const yValue${index} = ${frequencyDataArrayStr};
+    const chartCode = `
+        const yValue${index} = ${frequencyDataArrayStr};
         
         const chart${index} = {
           x: xValue,
