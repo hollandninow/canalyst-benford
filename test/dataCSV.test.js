@@ -8,7 +8,7 @@ const token = process.env.CANALYST_JWT;
 describe('DataCSV', () => {
 
   it('data should be defined and of type array', async () => {
-    const csv = await new QueryMDSCompanyList(token).getCompanyList('csv');
+    const csv = await new QueryMDSCompanyList(token).getCompanyList({format: 'csv'});
 
     const csvObj = new DataCSV(csv);
 
