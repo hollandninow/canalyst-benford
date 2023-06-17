@@ -1,7 +1,5 @@
-const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 const QueryMDSCompanyBulkData = require('../queryMDS/queryMDSCompanyBulkData');
 const QueryMDSEquityModelSeriesSet = require('../queryMDS/queryMDSEquityModelSeriesSet');
-const CompanyList = require('../dataCSV/companyList');
 const CompanyBulkData = require('../dataCSV/companyBulkData');
 const EquityModelSeriesSet = require('../equityModelSeriesSet/equityModelSeriesSet');
 const LeadingDigitCounter = require('../helpers/leadingDigitCounter');
