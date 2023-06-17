@@ -32,13 +32,8 @@ class BenfordAnalysis {
       tickerType: this.tickerType,
       financialStatement: financialStatementStr,
     };
-
-    // query controller for throttling
-    const companyListCSV = await new QueryMDSCompanyList(this.token).getCompanyList({format: 'csv'});
-  
-    const companyId = new CompanyList(companyListCSV).getCompanyIdFromTicker(this.ticker, this.tickerType);
     
-    const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, companyId).getEquityModelSeriesSet();
+    const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {bloombergTicker: this.ticker, format: 'json'}).getEquityModelSeriesSet();
 
     const model = new EquityModelSeriesSet(equityModelSeriesSet);
 

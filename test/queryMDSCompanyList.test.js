@@ -23,12 +23,6 @@ describe('QueryMDSCompanyList', () => {
   });
 
   it('should retrieve a file that is defined', async () => {
-    const options = {
-      format: 'json',
-      pageSize: '500',
-      sector: 'banks',
-    }
-
     const query = new QueryMDSCompanyList(token);
     const dataJSON = await query.getCompanyList({
       format: 'json',

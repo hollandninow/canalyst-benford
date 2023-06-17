@@ -1,17 +1,26 @@
 const QueryMDS = require('./queryMDS')
 
 class QueryMDSEquityModelSeriesSet extends QueryMDS {
-  constructor(token, companyId) {
+  constructor(token, options) {
     super(token);
-    this.APIQueryURL = `equity-model-series/?company_id=${companyId}&format=`
+    options = options || {};
+    const { format, bloombergTicker, companyId } = options;
+
+    const formattedTicker = bloombergTicker ? bloombergTicker.replace(' ', '%20') : undefined;
+
+    if (formattedTicker)
+      this.APIQueryURL = `equity-model-series/?company_ticker_bloomberg=${formattedTicker}&format=${format}`
+
+    if (companyId)
+      this.APIQueryURL = `equity-model-series/?company_id=${companyId}&format=${format}`
 }
 
-  async getEquityModelSeriesSet(fileFormatStr = 'json') {
+  async getEquityModelSeriesSet() {
     try {
-      const res = await this.instance.get(this.APIQueryURL + fileFormatStr)
+      const res = await this.instance.get(this.APIQueryURL)
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(`${err.code}: ${err.message}`);
     }
   }
 }
