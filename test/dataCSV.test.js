@@ -7,7 +7,7 @@ const token = process.env.CANALYST_JWT;
 
 describe('DataCSV', () => {
 
-  it('data should be defined and of type array', async () => {
+  it('should be defined and of type array', async () => {
     const csv = await new QueryMDSCompanyList(token).getCompanyList({format: 'csv'});
 
     const csvObj = new DataCSV(csv);
@@ -15,5 +15,5 @@ describe('DataCSV', () => {
     expect(csvObj.data).toBeDefined();
     expect(Array.isArray(csvObj.data)).toBe(true);
   });
-
+  
 });

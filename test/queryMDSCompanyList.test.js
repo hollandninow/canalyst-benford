@@ -22,4 +22,27 @@ describe('QueryMDSCompanyList', () => {
     expect(dataJSON).toBeDefined();
   });
 
+  it('should retrieve a file that is defined', async () => {
+    const options = {
+      format: 'json',
+      pageSize: '500',
+      sector: 'banks',
+    }
+
+    const query = new QueryMDSCompanyList(token);
+    const dataJSON = await query.getCompanyList({
+      format: 'json',
+      pageSize: '500',
+      sector: 'banks',
+    });
+    const dataCSV = await query.getCompanyList({
+      format: 'csv',
+      pageSize: '500',
+      sector: 'insurance',
+    });
+
+    expect(dataCSV).toBeDefined();
+    expect(dataJSON).toBeDefined();
+  });
+
 });
