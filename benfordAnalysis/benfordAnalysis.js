@@ -31,7 +31,9 @@ class BenfordAnalysis {
       financialStatement: financialStatementStr,
     };
     
-    const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {bloombergTicker: this.ticker, format: 'json'}).getEquityModelSeriesSet();
+    const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
+      bloombergTicker: this.ticker, format: 'json'
+    }).getEquityModelSeriesSet();
 
     const model = new EquityModelSeriesSet(equityModelSeriesSet);
 
