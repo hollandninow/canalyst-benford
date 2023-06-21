@@ -6,7 +6,7 @@ const BenfordVisualizer = require('./benfordVisualizer/benfordVisualizer');
 const main = async () => {
   new initConfig('./config.env');
 
-  const benfordData = await new BenfordAnalysis(process.env.CANALYST_JWT, 'MA US', 'Bloomberg').performMultipleAnalyses([
+  const benfordData = await new BenfordAnalysis(process.env.CANALYST_JWT, 'AON US', 'Bloomberg').performMultipleAnalyses([
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',
@@ -15,7 +15,7 @@ const main = async () => {
 
   const baseHTML = new BenfordVisualizer().createBaseHTML(benfordData);
   
-  let ticker = benfordData[0].ticker.replace('/', '-');
+  let ticker = benfordData[0].getTicker().replace('/', '-');
 
   fs.writeFileSync(`./outputHTML/${ticker}-bar-chart.html`, baseHTML);
 

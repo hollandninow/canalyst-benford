@@ -4,6 +4,7 @@ const CompanyBulkData = require('../dataCSV/companyBulkData');
 const EquityModelSeriesSet = require('../equityModelSeriesSet/equityModelSeriesSet');
 const LeadingDigitCounter = require('../helpers/leadingDigitCounter');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
+const StatementBenford = require('../benfordAnalysis/statementBenford');
 
 class BenfordAnalysis {
   constructor(token, ticker, tickerType) {
@@ -25,11 +26,17 @@ class BenfordAnalysis {
   }
 
   async performAnalysis(financialStatementStr) {
-    const benfordObj = {
+    const statementBenfordObj = new StatementBenford({
       ticker: this.ticker,
       tickerType: this.tickerType,
       financialStatement: financialStatementStr,
-    };
+    });
+
+    // const benfordObj = {
+    //   ticker: this.ticker,
+    //   tickerType: this.tickerType,
+    //   financialStatement: financialStatementStr,
+    // };
     
     const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
       bloombergTicker: this.ticker, format: 'json'
@@ -37,18 +44,30 @@ class BenfordAnalysis {
 
     const model = new EquityModelSeriesSet(equityModelSeriesSet);
 
-    benfordObj.csin = model.getCSIN();
-    benfordObj.modelVersion = model.getCurrentModelVersion();
+    statementBenfordObj.setCSIN(model.getCSIN());
+    statementBenfordObj.setModelVersion(model.getCurrentModelVersion());
 
-    const companyBulkDataCSV = await new QueryMDSCompanyBulkData(this.token, benfordObj.csin, benfordObj.modelVersion).getCompanyBulkDataCSV();
+    const companyBulkDataCSV = await new QueryMDSCompanyBulkData(
+        this.token, 
+        statementBenfordObj.getCSIN(), 
+        statementBenfordObj.getModelVersion()
+      ).getCompanyBulkDataCSV();
 
     const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
  
-    benfordObj.data = new LeadingDigitCounter().countLeadingDigits(financialStatementData);
+    // benfordObj.data = new LeadingDigitCounter().countLeadingDigits(financialStatementData);
 
-    benfordObj.frequencyData = calculateLeadingDigitFrequencies(benfordObj.data, {rounded: true});
+    statementBenfordObj.setCountData(
+      new LeadingDigitCounter().countLeadingDigits(financialStatementData)
+    );
 
-    return benfordObj;
+    // benfordObj.frequencyData = calculateLeadingDigitFrequencies(benfordObj.data, {rounded: true});
+
+    statementBenfordObj.setFrequencyData(
+      calculateLeadingDigitFrequencies(statementBenfordObj.getCountData(), {rounded: true})
+    );
+
+    return statementBenfordObj;
   }
 }
 

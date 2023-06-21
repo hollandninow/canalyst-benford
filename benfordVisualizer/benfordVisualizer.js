@@ -1,7 +1,7 @@
 class BenfordVisualizer {
 
   createChartCode(benfordObj, index) {
-    const frequencyDataArray = Object.keys(benfordObj.frequencyData).map(bucket => benfordObj.frequencyData[bucket]);
+    const frequencyDataArray = Object.keys(benfordObj.getFrequencyData()).map(bucket => benfordObj.getFrequencyData()[bucket]);
 
     const frequencyDataArrayStr = `[${frequencyDataArray.toString()}]`;
     
@@ -28,7 +28,7 @@ class BenfordVisualizer {
         const data${index} = [chart${index},benford];
     
         const layout${index} = {
-          title: '${benfordObj.financialStatement}'
+          title: '${benfordObj.getFinancialStatement()}'
         };
         
         Plotly.newPlot('myDiv${index}', data${index}, layout${index});
@@ -47,9 +47,10 @@ class BenfordVisualizer {
     return chartCodeArray;
   }
 
-  createBaseHTML(benfordData) {
-    const chartCodeArr = this.bundleChartCode(benfordData);
-    const ticker = benfordData[0].ticker;
+  createBaseHTML(benfordObjectArray) {
+    console.log(benfordObjectArray);
+    const chartCodeArr = this.bundleChartCode(benfordObjectArray);
+    const ticker = benfordObjectArray[0].getTicker();
 
     let chartCodeArrStr = '';
 
