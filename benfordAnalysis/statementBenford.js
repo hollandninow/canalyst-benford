@@ -8,6 +8,15 @@ class StatementBenford {
   #frequencyData;
 
   constructor(options) {
+    if(!options.ticker)
+      throw new Error('ticker is undefined.');
+
+    if(!options.tickerType)
+      throw new Error('tickerType is undefined.');
+
+    if(!options.financialStatement)
+      throw new Error('financialStatement is undefined.');
+
     this.#ticker = options.ticker;
     this.#tickerType = options.tickerType;
     this.#financialStatement = options.financialStatement;

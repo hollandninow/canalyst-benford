@@ -48,7 +48,6 @@ class BenfordVisualizer {
   }
 
   createBaseHTML(benfordObjectArray) {
-    console.log(benfordObjectArray);
     const chartCodeArr = this.bundleChartCode(benfordObjectArray);
     const ticker = benfordObjectArray[0].getTicker();
 

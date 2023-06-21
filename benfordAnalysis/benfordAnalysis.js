@@ -31,12 +31,6 @@ class BenfordAnalysis {
       tickerType: this.tickerType,
       financialStatement: financialStatementStr,
     });
-
-    // const benfordObj = {
-    //   ticker: this.ticker,
-    //   tickerType: this.tickerType,
-    //   financialStatement: financialStatementStr,
-    // };
     
     const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
       bloombergTicker: this.ticker, format: 'json'
@@ -54,14 +48,10 @@ class BenfordAnalysis {
       ).getCompanyBulkDataCSV();
 
     const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
- 
-    // benfordObj.data = new LeadingDigitCounter().countLeadingDigits(financialStatementData);
 
     statementBenfordObj.setCountData(
       new LeadingDigitCounter().countLeadingDigits(financialStatementData)
     );
-
-    // benfordObj.frequencyData = calculateLeadingDigitFrequencies(benfordObj.data, {rounded: true});
 
     statementBenfordObj.setFrequencyData(
       calculateLeadingDigitFrequencies(statementBenfordObj.getCountData(), {rounded: true})
