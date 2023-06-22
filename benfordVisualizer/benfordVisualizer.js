@@ -37,29 +37,29 @@ class BenfordVisualizer {
     return chartCode;
   }
 
-  bundleChartCode(chartDataArray) {
+  bundleChartCode(statementBenfordArray) {
     const chartCodeArray = [];
 
-    chartDataArray.forEach((dataObj, i) => {
+    statementBenfordArray.forEach((dataObj, i) => {
       chartCodeArray.push(this.createChartCode(dataObj, i));
     });
 
     return chartCodeArray;
   }
 
-  createBaseHTML(benfordObjectArray) {
-    const chartCodeArr = this.bundleChartCode(benfordObjectArray);
-    const ticker = benfordObjectArray[0].getTicker();
+  createBaseHTML(companyBenfordObj) {
+    const chartCodeArray = this.bundleChartCode(companyBenfordObj.getStatementBenfordArray());
+    const ticker = companyBenfordObj.getTicker();
 
     let chartCodeArrStr = '';
 
-    chartCodeArr.forEach(str => {
+    chartCodeArray.forEach(str => {
       chartCodeArrStr += str;
     });
 
     let chartDivArrStr = '';
 
-    for(let i = 0; i < chartCodeArr.length; i++) {
+    for(let i = 0; i < chartCodeArray.length; i++) {
       chartDivArrStr += `<div id="myDiv${i}" style="width:1000px;height:400px;"></div>`;
     }
 

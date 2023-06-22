@@ -5,6 +5,7 @@ const EquityModelSeriesSet = require('../equityModelSeriesSet/equityModelSeriesS
 const LeadingDigitCounter = require('../helpers/leadingDigitCounter');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
 const StatementBenford = require('../benfordAnalysis/statementBenford');
+const CompanyBenford = require('../benfordAnalysis/companyBenford');
 
 class BenfordAnalysis {
   constructor(token, ticker, tickerType) {
@@ -22,7 +23,9 @@ class BenfordAnalysis {
       benfordData[i] = await this.performAnalysis(financialStatementStr);
     }
 
-    return benfordData;
+    const companyBenfordObj = new CompanyBenford(benfordData);
+
+    return companyBenfordObj;
   }
 
   async performAnalysis(financialStatementStr) {

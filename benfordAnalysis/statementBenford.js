@@ -55,9 +55,7 @@ class StatementBenford {
   }
 
   setCountData(countDataArray) {
-    // console.log('countDataArray', countDataArray);
     this.#countData = countDataArray;
-    // console.log('countDataArray', this.#countData);
   }
 
   getFrequencyData() {
@@ -65,9 +63,7 @@ class StatementBenford {
   }
 
   setFrequencyData(frequencyDataArray) {
-    // console.log('frequencyDataArray', frequencyDataArray);
     this.#frequencyData = frequencyDataArray;
-    // console.log('frequencyDataArray', this.#frequencyData);
   }
 }
 

@@ -11,7 +11,8 @@ const main = async () => {
 
   const token = process.env.CANALYST_JWT;
 
-  const sectorBAnalysis = new SectorBenfordAnalysis(token, 'reinsurance');
+  // Test Sector Analysis
+  // const sectorBAnalysis = new SectorBenfordAnalysis(token, 'reinsurance');
 
   // const data = await sectorBAnalysis.performSectorAnalysis([
   //   'Income Statement As Reported',
