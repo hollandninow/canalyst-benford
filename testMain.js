@@ -12,16 +12,20 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  // const sectorBAnalysis = new SectorBenfordAnalysis(token, 'reinsurance');
+  const sectorBAnalysis = new SectorBenfordAnalysis(token, 'reinsurance');
 
-  // const data = await sectorBAnalysis.performSectorAnalysis([
-  //   'Income Statement As Reported',
-  //   'Balance Sheet',
-  //   'Cash Flow Statement',
-  //   'Adjusted Numbers As Reported',
-  // ]);
+  const sectorBenfordObj = await sectorBAnalysis.performSectorAnalysis([
+    'Income Statement As Reported',
+    'Balance Sheet',
+    'Cash Flow Statement',
+    'Adjusted Numbers As Reported',
+  ]);
 
-  // console.log(data);
+  sectorBenfordObj.getCompanyBenfordArray().forEach(companyBenford => {
+    console.log(companyBenford.getTicker());
+    console.log(companyBenford.getCSIN());
+    console.log(companyBenford.getModelVersion());
+  });
 
   console.log('Complete.');
 };

@@ -1,4 +1,5 @@
 const BenfordAnalysis = require('./benfordAnalysis');
+const SectorBenford = require('./sectorBenford');
 const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 
 class SectorBenfordAnalysis {
@@ -22,17 +23,19 @@ class SectorBenfordAnalysis {
 
     const sectorCoverageListArray = sectorListArray.results.filter( model => model.is_in_coverage === true);
 
-    const sectorData = [];
+    const companyBenfordArray = [];
 
     for( let i = 0; i < sectorCoverageListArray.length; i++ ) {
       const bAnalysis = new BenfordAnalysis(this.token, sectorCoverageListArray[i].tickers.Bloomberg, 'Bloomberg');
 
-      const bData = await bAnalysis.performMultipleAnalyses(fsStringArray);
+      const companyBenfordObj = await bAnalysis.performMultipleAnalyses(fsStringArray);
 
-      sectorData.push(bData);
+      companyBenfordArray.push(companyBenfordObj);
     }
 
-    return sectorData;
+    const sectorBenfordObj = new SectorBenford(companyBenfordArray, this.sector);
+
+    return sectorBenfordObj;
   }
 }
 

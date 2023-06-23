@@ -12,7 +12,7 @@ class CompanyBenford extends StatementBenford {
 
     this.#statementBenfordArray = statementBenfordArray;
     this.setCSIN(statementBenfordArray[0].getCSIN());
-    this.setModelVersion(statementBenfordArray[0].setModelVersion());
+    this.setModelVersion(statementBenfordArray[0].getModelVersion());
   }
 
   getStatementBenfordArray() {
