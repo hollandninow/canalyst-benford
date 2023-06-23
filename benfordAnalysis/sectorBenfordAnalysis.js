@@ -37,6 +37,11 @@ class SectorBenfordAnalysis {
 
     return sectorBenfordObj;
   }
+
+  aggregateSectorBenfordData(companyBenfordArray) {
+
+    
+  }
 }
 
 module.exports = SectorBenfordAnalysis;

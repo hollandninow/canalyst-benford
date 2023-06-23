@@ -1,6 +1,8 @@
 class LeadingDigitCounter {
-  countLeadingDigits(array) {
-    const leadingDigitDistributionObj = {
+  #leadingDigitDistributionObj;
+
+  constructor() {
+    this.#leadingDigitDistributionObj = {
       1: 0,
       2: 0,
       3: 0,
@@ -12,16 +14,22 @@ class LeadingDigitCounter {
       9: 0,
       total: 0,
     };
+  }
 
+  countLeadingDigits(array) {
     array.forEach(value => {
       const valueStr = value < 0 ? `${value * -1}` : `${value}`;
       const valueStrArr = valueStr.split('');
-      
-      leadingDigitDistributionObj[valueStrArr[0]]++;
-      leadingDigitDistributionObj.total++;
+
+      this.incrementBucket(valueStrArr[0]);
     });
     
-    return leadingDigitDistributionObj;
+    return this.#leadingDigitDistributionObj;
+  }
+
+  incrementBucket(bucket) {
+    this.#leadingDigitDistributionObj[bucket]++;
+    this.#leadingDigitDistributionObj.total++;
   }
 }
 
