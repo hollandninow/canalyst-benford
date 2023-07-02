@@ -13,8 +13,6 @@ const main = async () => {
     'Adjusted Numbers As Reported',
   ]);
 
-  // test remote push
-
   const baseHTML = new BenfordVisualizer().createBaseHTML(companyBenfordObj);
   
   let ticker = companyBenfordObj.getTicker().replace('/', '-');

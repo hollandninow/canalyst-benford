@@ -54,16 +54,16 @@ class StatementBenford {
     return this.#countData;
   }
 
-  setCountData(countDataArray) {
-    this.#countData = countDataArray;
+  setCountData(countDataObj) {
+    this.#countData = countDataObj;
   }
 
   getFrequencyData() {
     return this.#frequencyData;
   }
 
-  setFrequencyData(frequencyDataArray) {
-    this.#frequencyData = frequencyDataArray;
+  setFrequencyData(frequencyDataObj) {
+    this.#frequencyData = frequencyDataObj;
   }
 }
 

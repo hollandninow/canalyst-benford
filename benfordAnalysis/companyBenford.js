@@ -7,12 +7,22 @@ class CompanyBenford extends StatementBenford {
     super({
       ticker: statementBenfordArray[0].getTicker(),
       tickerType: statementBenfordArray[0].getTickerType(),
-      financialStatement: 'Multiple',
+      financialStatement: this.#getStatementArray(statementBenfordArray),
     });
 
     this.#statementBenfordArray = statementBenfordArray;
     this.setCSIN(statementBenfordArray[0].getCSIN());
     this.setModelVersion(statementBenfordArray[0].getModelVersion());
+  }
+
+  #getStatementArray(statementBenfordArray) {
+    const statementArray = [];
+
+    statementBenfordArray.forEach( stmtBenford => {
+      statementArray.push( stmtBenford.getFinancialStatement() );
+    });
+
+    return statementArray;
   }
 
   getStatementBenfordArray() {
