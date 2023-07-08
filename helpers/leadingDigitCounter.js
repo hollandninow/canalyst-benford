@@ -1,8 +1,8 @@
 class LeadingDigitCounter {
   #leadingDigitDistributionObj;
 
-  constructor() {
-    this.#leadingDigitDistributionObj = {
+  constructor(leadingDigitCounterObj) {
+    this.#leadingDigitDistributionObj = !leadingDigitCounterObj ? {
       1: 0,
       2: 0,
       3: 0,
@@ -13,7 +13,7 @@ class LeadingDigitCounter {
       8: 0,
       9: 0,
       total: 0,
-    };
+    } : leadingDigitCounterObj;
   }
 
   countLeadingDigits(array) {
