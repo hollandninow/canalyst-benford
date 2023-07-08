@@ -10,7 +10,7 @@ class SectorBenford extends StatementBenford {
     super({
       ticker: 'Multiple',
       tickerType: 'Multiple',
-      financialStatement: 'Multiple',
+      financialStatement: companyBenfordArray[0].getStatementArray(),
     });
 
     this.#sector = sector;

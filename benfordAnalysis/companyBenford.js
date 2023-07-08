@@ -7,7 +7,15 @@ class CompanyBenford extends StatementBenford {
     super({
       ticker: statementBenfordArray[0].getTicker(),
       tickerType: statementBenfordArray[0].getTickerType(),
-      financialStatement: this.#getStatementArray(statementBenfordArray),
+      financialStatement: (statementBenfordArray => {
+        const statementArray = [];
+
+        statementBenfordArray.forEach(stmtBenford => {
+        statementArray.push(stmtBenford.getFinancialStatement());
+        });
+
+        return statementArray;
+      })(statementBenfordArray),
     });
 
     this.#statementBenfordArray = statementBenfordArray;
@@ -15,11 +23,11 @@ class CompanyBenford extends StatementBenford {
     this.setModelVersion(statementBenfordArray[0].getModelVersion());
   }
 
-  #getStatementArray(statementBenfordArray) {
+  getStatementArray() {
     const statementArray = [];
 
-    statementBenfordArray.forEach( stmtBenford => {
-      statementArray.push( stmtBenford.getFinancialStatement() );
+    this.#statementBenfordArray.forEach(stmtBenford => {
+      statementArray.push(stmtBenford.getFinancialStatement());
     });
 
     return statementArray;

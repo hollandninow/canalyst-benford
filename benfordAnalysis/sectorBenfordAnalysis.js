@@ -42,7 +42,7 @@ class SectorBenfordAnalysis {
     const statementArray = companyBenfordArray[0].getFinancialStatement();
 
     for( let i = 0; i < companyBenfordArray; i++) {
-
+      
     }
     
   }

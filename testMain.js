@@ -22,10 +22,18 @@ const main = async () => {
   ]);
 
   sectorBenfordObj.getCompanyBenfordArray().forEach(companyBenford => {
+    console.log('CompanyBenford Object:');
     console.log(companyBenford.getTicker());
     console.log(companyBenford.getCSIN());
     console.log(companyBenford.getModelVersion());
+    console.log(companyBenford.getFinancialStatement());
   });
+
+  console.log('SectorBenford Object:');
+  console.log(sectorBenfordObj.getSector());
+  console.log(sectorBenfordObj.getFinancialStatement());
+  console.log(sectorBenfordObj.getSectorCountData());
+  console.log(sectorBenfordObj.getSectorFrequencyData());
 
   console.log('Complete.');
 };
