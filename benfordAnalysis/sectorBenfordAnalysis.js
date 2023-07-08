@@ -1,6 +1,8 @@
 const BenfordAnalysis = require('./benfordAnalysis');
 const SectorBenford = require('./sectorBenford');
+const StatementBenford = require('./statementBenford');
 const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
+const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
 
 class SectorBenfordAnalysis {
   constructor(token, sector) {
@@ -33,18 +35,65 @@ class SectorBenfordAnalysis {
       companyBenfordArray.push(companyBenfordObj);
     }
 
-    const sectorBenfordObj = new SectorBenford(companyBenfordArray, this.sector);
+    const statementBenfordArray = this.aggregateSectorBenfordData(companyBenfordArray);
+
+    const sectorBenfordObj = new SectorBenford(companyBenfordArray, statementBenfordArray, this.sector);
 
     return sectorBenfordObj;
   }
 
   aggregateSectorBenfordData(companyBenfordArray) {
-    const statementArray = companyBenfordArray[0].getFinancialStatement();
+    const financialStatementStringArray = companyBenfordArray[0].getFinancialStatement();
 
-    for( let i = 0; i < companyBenfordArray; i++) {
-      
+    const statementBenfordArray = [];
+
+    for(let i = 0; i < financialStatementStringArray.length; i++) {
+      const statementBenfordObj = this.aggregateFinancialStatementDataAcrossSector(companyBenfordArray, financialStatementStringArray[i]);
+
+      statementBenfordArray.push(statementBenfordObj);
     }
-    
+
+    return statementBenfordArray;
+  }
+
+  aggregateFinancialStatementDataAcrossSector(companyBenfordArray, financialStatementString) {
+    const statementBenfordObj = new StatementBenford({
+      ticker: 'Multiple',
+      tickerType: 'Multiple',
+      financialStatement: financialStatementString,
+    });
+
+    statementBenfordObj.setCSIN('Multiple');
+    statementBenfordObj.setModelVersion('Multiple');
+
+    const aggregatedFinancialStatementCountData = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+      6: 0,
+      7: 0,
+      8: 0,
+      9: 0,
+      total: 0,
+    };
+
+    companyBenfordArray.forEach(companyBenford => {
+      const statementCountDataObj = companyBenford.getStatementBenford(financialStatementString).getCountData();
+
+      for (const [key, value] of Object.entries(statementCountDataObj)) {
+        aggregatedFinancialStatementCountData[key] += value;
+      }
+    });
+
+    statementBenfordObj.setCountData(aggregatedFinancialStatementCountData);
+
+    statementBenfordObj.setFrequencyData(
+      calculateLeadingDigitFrequencies(statementBenfordObj.getCountData(), {rounded: true})
+    );
+
+    return statementBenfordObj;
   }
 }
 

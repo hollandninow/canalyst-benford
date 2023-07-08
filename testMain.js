@@ -12,7 +12,7 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  const sectorBAnalysis = new SectorBenfordAnalysis(token, 'reinsurance');
+  const sectorBAnalysis = new SectorBenfordAnalysis(token, 'financial exchanges data');
 
   const sectorBenfordObj = await sectorBAnalysis.performSectorAnalysis([
     'Income Statement As Reported',
@@ -21,19 +21,37 @@ const main = async () => {
     'Adjusted Numbers As Reported',
   ]);
 
+  let addCompanyTotals = 0;
+  let addSectorTotals = 0;
+
   sectorBenfordObj.getCompanyBenfordArray().forEach(companyBenford => {
     console.log('CompanyBenford Object:');
     console.log(companyBenford.getTicker());
     console.log(companyBenford.getCSIN());
     console.log(companyBenford.getModelVersion());
     console.log(companyBenford.getFinancialStatement());
+
+    companyBenford.getStatementBenfordArray().forEach(statementBenford => {
+      addCompanyTotals += statementBenford.getCountData().total;
+    })
   });
+  
 
   console.log('SectorBenford Object:');
   console.log(sectorBenfordObj.getSector());
   console.log(sectorBenfordObj.getFinancialStatement());
-  console.log(sectorBenfordObj.getSectorCountData());
-  console.log(sectorBenfordObj.getSectorFrequencyData());
+  const sectorStatementBenfordArray = sectorBenfordObj.getStatementBenfordArray();
+
+  sectorStatementBenfordArray.forEach( statementBenford => {
+      console.log(statementBenford.getFinancialStatement(),':');
+      console.log(statementBenford.getCountData());
+      console.log(statementBenford.getFrequencyData());
+      addSectorTotals += statementBenford.getCountData().total;
+    }
+  );
+  
+  console.log(`Check ${addSectorTotals} is equal to ${addCompanyTotals}?`);
+
 
   console.log('Complete.');
 };

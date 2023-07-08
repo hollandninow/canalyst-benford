@@ -3,10 +3,9 @@ const StatementBenford = require('./statementBenford');
 class SectorBenford extends StatementBenford {
   #companyBenfordArray;
   #sector;
-  #sectorCountData;
-  #sectorFrequencyData;
+  #statementBenfordArray;
 
-  constructor(companyBenfordArray, sector) {
+  constructor(companyBenfordArray, statementBenfordArray, sector) {
     super({
       ticker: 'Multiple',
       tickerType: 'Multiple',
@@ -15,6 +14,7 @@ class SectorBenford extends StatementBenford {
 
     this.#sector = sector;
     this.#companyBenfordArray = companyBenfordArray;
+    this.#statementBenfordArray = statementBenfordArray;
     this.setCSIN(companyBenfordArray[0].getCSIN());
     this.setModelVersion(companyBenfordArray[0].setModelVersion());
   }
@@ -27,20 +27,8 @@ class SectorBenford extends StatementBenford {
     return this.#sector;
   }
 
-  getSectorCountData() {
-    return this.#sectorCountData;
-  }
-
-  setSectorCountData(data) {
-    this.#sectorCountData = data;
-  }
-
-  getSectorFrequencyData() {
-    return this.#sectorFrequencyData;
-  }
-
-  setSectorFrequencyData(data) {
-    this.#sectorFrequencyData = data;
+  getStatementBenfordArray() {
+    return this.#statementBenfordArray;
   }
 }
 
