@@ -36,6 +36,17 @@ class CompanyBenford extends StatementBenford {
   getStatementBenfordArray() {
     return this.#statementBenfordArray;
   }
+
+  getStatementBenford(financialStatementStr) {
+    const statementBenfordArray = this.#statementBenfordArray.filter( statementBenford => 
+      statementBenford.getFinancialStatement() === financialStatementStr
+    );
+
+    if (statementBenfordArray.length !== 1)
+      throw new Error('Multiple StatementBenford objects for a given financial statement string. There should only be one StatementBenford object per financial statement string.')
+
+    return statementBenfordArray[0];
+  }
 }
 
 module.exports = CompanyBenford;
