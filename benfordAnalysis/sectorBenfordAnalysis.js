@@ -35,20 +35,20 @@ class SectorBenfordAnalysis {
       companyBenfordArray.push(companyBenfordObj);
     }
 
-    const statementBenfordArray = this.aggregateSectorBenfordData(companyBenfordArray);
+    const statementBenfordArray = this.#aggregateSectorBenfordData(companyBenfordArray);
 
     const sectorBenfordObj = new SectorBenford(companyBenfordArray, statementBenfordArray, this.sector);
 
     return sectorBenfordObj;
   }
 
-  aggregateSectorBenfordData(companyBenfordArray) {
+  #aggregateSectorBenfordData(companyBenfordArray) {
     const financialStatementStringArray = companyBenfordArray[0].getFinancialStatement();
 
     const statementBenfordArray = [];
 
     for(let i = 0; i < financialStatementStringArray.length; i++) {
-      const statementBenfordObj = this.aggregateFinancialStatementDataAcrossSector(companyBenfordArray, financialStatementStringArray[i]);
+      const statementBenfordObj = this.#aggregateFinancialStatementDataAcrossSector(companyBenfordArray, financialStatementStringArray[i]);
 
       statementBenfordArray.push(statementBenfordObj);
     }
@@ -56,7 +56,7 @@ class SectorBenfordAnalysis {
     return statementBenfordArray;
   }
 
-  aggregateFinancialStatementDataAcrossSector(companyBenfordArray, financialStatementString) {
+  #aggregateFinancialStatementDataAcrossSector(companyBenfordArray, financialStatementString) {
     const statementBenfordObj = new StatementBenford({
       ticker: 'Multiple',
       tickerType: 'Multiple',

@@ -13,7 +13,7 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  const sector = 'ecommerce marketplace';
+  const sector = 'industrial conglomerates';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 
