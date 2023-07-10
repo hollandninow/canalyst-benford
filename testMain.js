@@ -3,6 +3,7 @@ const initConfig = require('./initConfig');
 const QueryMDSCompanyList = require('./queryMDS/queryMDSCompanyList');
 const SectorBenfordAnalysis = require('./benfordAnalysis/sectorBenfordAnalysis');
 const StatementBenford = require('./benfordAnalysis/statementBenford');
+const BenfordVisualizer = require('./benfordVisualizer/benfordVisualizer');
 // const BenfordAnalysis = require('./benfordAnalysis/benfordAnalysis');
 // const BenfordVisualizer = require('./benfordVisualizer/benfordVisualizer');
 
@@ -12,7 +13,20 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  const sectorBAnalysis = new SectorBenfordAnalysis(token, 'financial exchanges data');
+  const sector = 'ecommerce marketplace';
+
+  const sectorFolderName = sector.replaceAll(' ','-');
+
+  const sectorDir = `./outputHTML/sector-analysis/${sectorFolderName}`;
+  const sectorCompaniesDir = `${sectorDir}/companies`
+
+  if(!fs.existsSync(sectorDir)) 
+    fs.mkdirSync(sectorDir, {recursive: true});
+
+  if(!fs.existsSync(sectorCompaniesDir)) 
+    fs.mkdirSync(sectorCompaniesDir, {recursive: true});
+
+  const sectorBAnalysis = new SectorBenfordAnalysis(token, sector);
 
   const sectorBenfordObj = await sectorBAnalysis.performSectorAnalysis([
     'Income Statement As Reported',
@@ -21,39 +35,55 @@ const main = async () => {
     'Adjusted Numbers As Reported',
   ]);
 
-  let addCompanyTotals = 0;
-  let addSectorTotals = 0;
+  const baseHTML = new BenfordVisualizer().createBaseHTML(sectorBenfordObj);
 
-  sectorBenfordObj.getCompanyBenfordArray().forEach(companyBenford => {
-    console.log('CompanyBenford Object:');
-    console.log(companyBenford.getTicker());
-    console.log(companyBenford.getCSIN());
-    console.log(companyBenford.getModelVersion());
-    console.log(companyBenford.getFinancialStatement());
+  fs.writeFileSync(`${sectorDir}/${sectorFolderName}-bar-chart.html`, baseHTML);
 
-    companyBenford.getStatementBenfordArray().forEach(statementBenford => {
-      addCompanyTotals += statementBenford.getCountData().total;
-    })
+  const sectorCompanyBenfordArray = sectorBenfordObj.getCompanyBenfordArray();
+
+  sectorCompanyBenfordArray.forEach( companyBenford => {
+    const companyBaseHTML = new BenfordVisualizer().createBaseHTML(companyBenford);
+
+    const ticker = companyBenford.getTicker().replace('/', '-');
+
+    fs.writeFileSync(`./outputHTML/sector-analysis/${sectorFolderName}/companies/${ticker}-bar-chart.html`, companyBaseHTML);
   });
+
+
+  // let addCompanyTotals = 0;
+  // let addSectorTotals = 0;
+
+  // sectorBenfordObj.getCompanyBenfordArray().forEach(companyBenford => {
+  //   console.log('CompanyBenford Object:');
+  //   console.log(companyBenford.getTicker());
+  //   console.log(companyBenford.getCSIN());
+  //   console.log(companyBenford.getModelVersion());
+  //   console.log(companyBenford.getFinancialStatement());
+
+  //   companyBenford.getStatementBenfordArray().forEach(statementBenford => {
+  //     addCompanyTotals += statementBenford.getCountData().total;
+  //   })
+  // });
   
 
-  console.log('SectorBenford Object:');
-  console.log(sectorBenfordObj.getSector());
-  console.log(sectorBenfordObj.getFinancialStatement());
-  const sectorStatementBenfordArray = sectorBenfordObj.getStatementBenfordArray();
+  // console.log('SectorBenford Object:');
+  // console.log(sectorBenfordObj.getSector());
+  // console.log(sectorBenfordObj.getFinancialStatement());
+  // const sectorStatementBenfordArray = sectorBenfordObj.getStatementBenfordArray();
 
-  sectorStatementBenfordArray.forEach( statementBenford => {
-      console.log(statementBenford.getFinancialStatement(),':');
-      console.log(statementBenford.getCountData());
-      console.log(statementBenford.getFrequencyData());
-      addSectorTotals += statementBenford.getCountData().total;
-    }
-  );
+  // sectorStatementBenfordArray.forEach( statementBenford => {
+  //     console.log(statementBenford.getFinancialStatement(),':');
+  //     console.log(statementBenford.getCountData());
+  //     console.log(statementBenford.getFrequencyData());
+  //     addSectorTotals += statementBenford.getCountData().total;
+  //   }
+  // );
   
-  console.log(`Check ${addSectorTotals} is equal to ${addCompanyTotals}?`);
+  // console.log(`Check ${addSectorTotals} is equal to ${addCompanyTotals}?`);
 
 
-  console.log('Complete.');
+
+  console.log('Sector Benford Analysis complete.');
 };
 
 main();

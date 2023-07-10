@@ -49,7 +49,7 @@ class BenfordVisualizer {
 
   createBaseHTML(companyBenfordObj) {
     const chartCodeArray = this.bundleChartCode(companyBenfordObj.getStatementBenfordArray());
-    const ticker = companyBenfordObj.getTicker();
+    const ticker = companyBenfordObj.getTicker() === 'Multiple' ? companyBenfordObj.getSector() : companyBenfordObj.getTicker();
 
     let chartCodeArrStr = '';
 
