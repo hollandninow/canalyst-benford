@@ -13,7 +13,7 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  const sector = 'industrial conglomerates';
+  const sector = 'airlines';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 
@@ -80,8 +80,6 @@ const main = async () => {
   // );
   
   // console.log(`Check ${addSectorTotals} is equal to ${addCompanyTotals}?`);
-
-
 
   console.log('Sector Benford Analysis complete.');
 };

@@ -28,11 +28,17 @@ class SectorBenfordAnalysis {
     const companyBenfordArray = [];
 
     for( let i = 0; i < sectorCoverageListArray.length; i++ ) {
-      const bAnalysis = new BenfordAnalysis(this.token, sectorCoverageListArray[i].tickers.Bloomberg, 'Bloomberg');
+      const ticker = sectorCoverageListArray[i].tickers.Bloomberg;
+      console.log(`Starting analysis of ${ticker}`);
+      const startTime = performance.now();
+      const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg');
 
       const companyBenfordObj = await bAnalysis.performMultipleAnalyses(fsStringArray);
 
       companyBenfordArray.push(companyBenfordObj);
+      const endTime = performance.now();
+
+      console.log(`Finished analysis of ${ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
     const statementBenfordArray = this.#aggregateSectorBenfordData(companyBenfordArray);
