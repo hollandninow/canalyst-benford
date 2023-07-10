@@ -13,7 +13,7 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  const sector = 'airlines';
+  const sector = 'reinsurance';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 
@@ -26,6 +26,7 @@ const main = async () => {
   if(!fs.existsSync(sectorCompaniesDir)) 
     fs.mkdirSync(sectorCompaniesDir, {recursive: true});
 
+  let startTime = performance.now();
   const sectorBAnalysis = new SectorBenfordAnalysis(token, sector);
 
   const sectorBenfordObj = await sectorBAnalysis.performSectorAnalysis([
@@ -34,6 +35,8 @@ const main = async () => {
     'Cash Flow Statement',
     'Adjusted Numbers As Reported',
   ]);
+  let endTime = performance.now();
+  console.log(`Finished analysis of ${sector}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
 
   const baseHTML = new BenfordVisualizer().createBaseHTML(sectorBenfordObj);
 

@@ -8,6 +8,9 @@ const StatementBenford = require('../benfordAnalysis/statementBenford');
 const CompanyBenford = require('../benfordAnalysis/companyBenford');
 
 class BenfordAnalysis {
+  #equityModelSeriesSet;
+  #companyBulkDataCSV;
+
   constructor(token, ticker, tickerType) {
     this.token = token;
     this.ticker = ticker;
@@ -15,40 +18,58 @@ class BenfordAnalysis {
   }
 
   async performMultipleAnalyses(fsStringArray) {
-    const benfordData = [];
+    const statementBenfordArray = [];
 
     for(let i = 0; i < fsStringArray.length; i++) {
       const financialStatementStr = fsStringArray[i];
 
-      benfordData[i] = await this.performAnalysis(financialStatementStr);
+      statementBenfordArray[i] = await this.performAnalysis(financialStatementStr);
     }
 
-    const companyBenfordObj = new CompanyBenford(benfordData);
+    const companyBenfordObj = new CompanyBenford(statementBenfordArray);
 
     return companyBenfordObj;
   }
 
   async performAnalysis(financialStatementStr) {
+    let startTime, endTime;
+
     const statementBenfordObj = new StatementBenford({
       ticker: this.ticker,
       tickerType: this.tickerType,
       financialStatement: financialStatementStr,
     });
-    
-    const equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
-      bloombergTicker: this.ticker, format: 'json'
-    }).getEquityModelSeriesSet();
+
+    let equityModelSeriesSet;
+    if (this.#equityModelSeriesSet === undefined) {
+      startTime = performance.now();
+      this.#equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
+        bloombergTicker: this.ticker, format: 'json'
+      }).getEquityModelSeriesSet();
+      endTime = performance.now();
+      console.log(`Finished fetching equity model series set. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+    }
+
+    equityModelSeriesSet = this.#equityModelSeriesSet;
 
     const model = new EquityModelSeriesSet(equityModelSeriesSet);
 
     statementBenfordObj.setCSIN(model.getCSIN());
     statementBenfordObj.setModelVersion(model.getCurrentModelVersion());
 
-    const companyBulkDataCSV = await new QueryMDSCompanyBulkData(
+    startTime = performance.now();
+    let companyBulkDataCSV;
+    if (this.#companyBulkDataCSV === undefined) {
+      this.#companyBulkDataCSV = await new QueryMDSCompanyBulkData(
         this.token, 
         statementBenfordObj.getCSIN(), 
         statementBenfordObj.getModelVersion()
       ).getCompanyBulkDataCSV();
+      endTime = performance.now();
+      console.log(`Finished fetching bulk data csv. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+    } 
+
+    companyBulkDataCSV = this.#companyBulkDataCSV;
 
     const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
 

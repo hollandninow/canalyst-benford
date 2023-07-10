@@ -23,7 +23,7 @@ class LeadingDigitCounter {
 
       this.incrementBucket(valueStrArr[0]);
     });
-    
+
     return this.#leadingDigitDistributionObj;
   }
 
