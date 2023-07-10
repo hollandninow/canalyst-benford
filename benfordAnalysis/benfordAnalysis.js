@@ -40,17 +40,18 @@ class BenfordAnalysis {
       financialStatement: financialStatementStr,
     });
 
-    let equityModelSeriesSet;
-    if (this.#equityModelSeriesSet === undefined) {
+    if (!this.#equityModelSeriesSet) {
       startTime = performance.now();
+
       this.#equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
         bloombergTicker: this.ticker, format: 'json'
       }).getEquityModelSeriesSet();
       endTime = performance.now();
+
       console.log(`Finished fetching equity model series set. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
-    equityModelSeriesSet = this.#equityModelSeriesSet;
+    const equityModelSeriesSet = this.#equityModelSeriesSet;
 
     const model = new EquityModelSeriesSet(equityModelSeriesSet);
 
@@ -58,18 +59,18 @@ class BenfordAnalysis {
     statementBenfordObj.setModelVersion(model.getCurrentModelVersion());
 
     startTime = performance.now();
-    let companyBulkDataCSV;
-    if (this.#companyBulkDataCSV === undefined) {
+    if (!this.#companyBulkDataCSV) {
       this.#companyBulkDataCSV = await new QueryMDSCompanyBulkData(
         this.token, 
         statementBenfordObj.getCSIN(), 
         statementBenfordObj.getModelVersion()
       ).getCompanyBulkDataCSV();
+
       endTime = performance.now();
       console.log(`Finished fetching bulk data csv. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     } 
 
-    companyBulkDataCSV = this.#companyBulkDataCSV;
+    const companyBulkDataCSV = this.#companyBulkDataCSV;
 
     const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
 
