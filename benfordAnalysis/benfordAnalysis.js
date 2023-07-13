@@ -6,6 +6,7 @@ const LeadingDigitCounter = require('../helpers/leadingDigitCounter');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
 const StatementBenford = require('../benfordAnalysis/statementBenford');
 const CompanyBenford = require('../benfordAnalysis/companyBenford');
+const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
 
 class BenfordAnalysis {
   #equityModelSeriesSet;
@@ -43,36 +44,42 @@ class BenfordAnalysis {
     if (!this.#equityModelSeriesSet) {
       startTime = performance.now();
 
-      this.#equityModelSeriesSet = await new QueryMDSEquityModelSeriesSet(this.token, {
-        bloombergTicker: this.ticker, format: 'json'
-      }).getEquityModelSeriesSet();
-      endTime = performance.now();
+      try {
+        const res = await fetchAndRetryIfNecessary( () => new QueryMDSEquityModelSeriesSet(this.token, {
+          bloombergTicker: this.ticker, format: 'json'
+        }).getEquityModelSeriesSet());
+        this.#equityModelSeriesSet = new EquityModelSeriesSet(res);
+      } catch (err) {
+        throw err;
+      }
 
+      endTime = performance.now();
       console.log(`Finished fetching equity model series set. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
-    const equityModelSeriesSet = this.#equityModelSeriesSet;
+    statementBenfordObj.setCSIN(this.#equityModelSeriesSet.getCSIN());
+    statementBenfordObj.setModelVersion(this.#equityModelSeriesSet.getCurrentModelVersion());
 
-    const model = new EquityModelSeriesSet(equityModelSeriesSet);
-
-    statementBenfordObj.setCSIN(model.getCSIN());
-    statementBenfordObj.setModelVersion(model.getCurrentModelVersion());
-
-    startTime = performance.now();
     if (!this.#companyBulkDataCSV) {
-      this.#companyBulkDataCSV = await new QueryMDSCompanyBulkData(
-        this.token, 
-        statementBenfordObj.getCSIN(), 
-        statementBenfordObj.getModelVersion()
-      ).getCompanyBulkDataCSV();
+      startTime = performance.now();
+
+      try {
+        this.#companyBulkDataCSV = await fetchAndRetryIfNecessary( () =>    
+          new QueryMDSCompanyBulkData(
+            this.token, 
+            statementBenfordObj.getCSIN(), 
+            statementBenfordObj.getModelVersion()
+          ).getCompanyBulkDataCSV()
+        );
+      } catch (err) {
+        throw err;
+      }
 
       endTime = performance.now();
       console.log(`Finished fetching bulk data csv. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     } 
 
-    const companyBulkDataCSV = this.#companyBulkDataCSV;
-
-    const financialStatementData = new CompanyBulkData(companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
+    const financialStatementData = new CompanyBulkData(this.#companyBulkDataCSV).getFinancialStatementData(financialStatementStr);
 
     statementBenfordObj.setCountData(
       new LeadingDigitCounter().countLeadingDigits(financialStatementData)
