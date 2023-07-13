@@ -5,7 +5,6 @@ exports.fetchAndRetryIfNecessary = async function fetchAndRetryIfNecessary (call
   
   try {
     response = await callAPIFn();
-    // console.log(response);
   } catch (err) {
     if(+err.response.status === 429) {
       const retryAfter = err.response.headers['retry-after'];
