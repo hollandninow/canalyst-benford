@@ -12,10 +12,11 @@ class BenfordAnalysis {
   #equityModelSeriesSet;
   #companyBulkDataCSV;
 
-  constructor(token, ticker, tickerType) {
+  constructor(token, ticker, tickerType, rateLimiter) {
     this.token = token;
     this.ticker = ticker;
     this.tickerType = tickerType;
+    this.rateLimiter = rateLimiter;
   }
 
   async performMultipleAnalyses(fsStringArray) {
@@ -43,18 +44,21 @@ class BenfordAnalysis {
 
     if (!this.#equityModelSeriesSet) {
       startTime = performance.now();
+      console.log(`Fetching equity model series set of ${this.ticker}.`);
 
       try {
-        const res = await fetchAndRetryIfNecessary( () => new QueryMDSEquityModelSeriesSet(this.token, {
-          bloombergTicker: this.ticker, format: 'json'
-        }).getEquityModelSeriesSet());
+        const res = await fetchAndRetryIfNecessary( () => this.rateLimiter.acquireToken( () => new QueryMDSEquityModelSeriesSet(this.token, {
+            bloombergTicker: this.ticker, 
+            format: 'json'
+          }).getEquityModelSeriesSet())
+        );
         this.#equityModelSeriesSet = new EquityModelSeriesSet(res);
       } catch (err) {
         throw err;
       }
 
       endTime = performance.now();
-      console.log(`Finished fetching equity model series set. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+      console.log(`Finished fetching equity model series set of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
     statementBenfordObj.setCSIN(this.#equityModelSeriesSet.getCSIN());
@@ -62,21 +66,23 @@ class BenfordAnalysis {
 
     if (!this.#companyBulkDataCSV) {
       startTime = performance.now();
+      console.log(`Fetching bulk data csv of ${this.ticker}.`);
 
       try {
-        this.#companyBulkDataCSV = await fetchAndRetryIfNecessary( () =>    
-          new QueryMDSCompanyBulkData(
-            this.token, 
-            statementBenfordObj.getCSIN(), 
-            statementBenfordObj.getModelVersion()
-          ).getCompanyBulkDataCSV()
+        this.#companyBulkDataCSV = await fetchAndRetryIfNecessary( () => this.rateLimiter.acquireToken(
+            () => new QueryMDSCompanyBulkData(
+              this.token, 
+              statementBenfordObj.getCSIN(), 
+              statementBenfordObj.getModelVersion()
+            ).getCompanyBulkDataCSV()
+          )
         );
       } catch (err) {
         throw err;
       }
 
       endTime = performance.now();
-      console.log(`Finished fetching bulk data csv. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+      console.log(`Finished fetching bulk data csv of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     } 
 
     const financialStatementData = new CompanyBulkData(this.#companyBulkDataCSV).getFinancialStatementData(financialStatementStr);

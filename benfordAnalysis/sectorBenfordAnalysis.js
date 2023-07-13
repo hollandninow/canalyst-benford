@@ -4,6 +4,7 @@ const StatementBenford = require('./statementBenford');
 const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
 const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
+const LimiterLibraryRateLimiter = require('../helpers/limiterLibraryRateLimiter');
 
 class SectorBenfordAnalysis {
   constructor(token, sector) {
@@ -13,13 +14,22 @@ class SectorBenfordAnalysis {
   }
 
   async performSectorAnalysis(fsStringArray) {
+    const rateLimiter = new LimiterLibraryRateLimiter({
+      maxRequests: 5,
+      maxRequestWindowMS: 1000,
+    });
+
     let sectorListArray;
     try {
-      sectorListArray = await this.query.getCompanyList({
-        format: 'json',
-        pageSize: '500',
-        sector: this.sector,
-      });
+      sectorListArray = await fetchAndRetryIfNecessary( () =>
+        rateLimiter.acquireToken( () => 
+            this.query.getCompanyList({
+            format: 'json',
+            pageSize: '500',
+            sector: this.sector,
+          })
+        )
+      );
     } catch (err) {
       console.error(`${err.code}: ${err.message}`);
     }
@@ -32,7 +42,7 @@ class SectorBenfordAnalysis {
       const ticker = sectorCoverageListArray[i].tickers.Bloomberg;
       console.log(`Starting analysis of ${ticker}`);
       const startTime = performance.now();
-      const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg');
+      const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg', rateLimiter);
 
       const companyBenfordObj = await bAnalysis.performMultipleAnalyses(fsStringArray);
 
@@ -50,6 +60,11 @@ class SectorBenfordAnalysis {
   }
 
   async performFastSectorAnalysis(fsStringArray) {
+    const rateLimiter = new LimiterLibraryRateLimiter({
+      maxRequests: 5,
+      maxRequestWindowMS: 1000,
+    });
+
     let sectorListArray;
     try {
       sectorListArray = await this.query.getCompanyList({
@@ -65,7 +80,7 @@ class SectorBenfordAnalysis {
 
     const companyBenfordPromiseArray = sectorCoverageListArray.map(company => {
       const ticker = company.tickers.Bloomberg;
-      const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg');
+      const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg', rateLimiter);
       
       const analysisPromise = bAnalysis.performMultipleAnalyses(fsStringArray);
 
