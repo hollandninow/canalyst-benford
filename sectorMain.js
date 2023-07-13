@@ -9,7 +9,8 @@ const main = async () => {
   const token = process.env.CANALYST_JWT;
 
   // Test Sector Analysis
-  const sector = 'reinsurance';
+  // const sector = 'specialized finance';
+  const sector = 'airlines';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 
@@ -25,7 +26,7 @@ const main = async () => {
   let startTime = performance.now();
   const sectorBAnalysis = new SectorBenfordAnalysis(token, sector);
 
-  const sectorBenfordObj = await sectorBAnalysis.performSectorAnalysis([
+  const sectorBenfordObj = await sectorBAnalysis.performFastSectorAnalysis([
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',

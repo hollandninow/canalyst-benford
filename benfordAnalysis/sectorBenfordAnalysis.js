@@ -3,6 +3,7 @@ const SectorBenford = require('./sectorBenford');
 const StatementBenford = require('./statementBenford');
 const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
+const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
 
 class SectorBenfordAnalysis {
   constructor(token, sector) {
@@ -47,6 +48,44 @@ class SectorBenfordAnalysis {
 
     return sectorBenfordObj;
   }
+
+  async performFastSectorAnalysis(fsStringArray) {
+    let sectorListArray;
+    try {
+      sectorListArray = await this.query.getCompanyList({
+        format: 'json',
+        pageSize: '500',
+        sector: this.sector,
+      });
+    } catch (err) {
+      console.error(`${err.code}: ${err.message}`);
+    }
+
+    const sectorCoverageListArray = sectorListArray.results.filter( model => model.is_in_coverage === true);
+
+    const companyBenfordPromiseArray = sectorCoverageListArray.map(company => {
+      const ticker = company.tickers.Bloomberg;
+      const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg');
+      
+      const analysisPromise = bAnalysis.performMultipleAnalyses(fsStringArray);
+
+      return analysisPromise;
+    });
+
+    let companyBenfordArray;
+    try {
+      companyBenfordArray = await Promise.all(companyBenfordPromiseArray);
+    } catch (err) {
+      throw err;
+    }
+
+    const statementBenfordArray = this.#aggregateSectorBenfordData(companyBenfordArray);
+
+    const sectorBenfordObj = new SectorBenford(companyBenfordArray, statementBenfordArray, this.sector);
+
+    return sectorBenfordObj;
+  }
+  
 
   #aggregateSectorBenfordData(companyBenfordArray) {
     const financialStatementStringArray = companyBenfordArray[0].getFinancialStatement();
