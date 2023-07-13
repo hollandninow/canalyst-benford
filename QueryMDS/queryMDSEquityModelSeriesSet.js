@@ -20,7 +20,7 @@ class QueryMDSEquityModelSeriesSet extends QueryMDS {
       const res = await this.instance.get(this.APIQueryURL)
       return res.data;
     } catch (err) {
-      console.error(`Error ${err.response.status}: ${err.response.statusText}. ${err.response.data.detail}`);
+      throw err;
     }
   }
 }

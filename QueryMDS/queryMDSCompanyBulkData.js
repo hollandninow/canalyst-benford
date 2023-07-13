@@ -11,7 +11,7 @@ class QueryMDSCompanyBulkData extends QueryMDS {
       const res = await this.instance.get(this.APIQueryURL)
       return res.data;
     } catch (err) {
-      console.error(`${err.code}: ${err.message}`);
+      throw err;
     }
   }
 }
