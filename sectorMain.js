@@ -10,7 +10,9 @@ const main = async () => {
 
   // Test Sector Analysis
   // const sector = 'specialized finance';
-  const sector = 'airlines';
+  // const sector = 'trucking';
+  // const sector = 'airlines';
+  const sector = 'regional banks';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 
