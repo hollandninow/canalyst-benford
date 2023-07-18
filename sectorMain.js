@@ -12,7 +12,11 @@ const main = async () => {
   // const sector = 'specialized finance';
   // const sector = 'trucking';
   // const sector = 'airlines';
-  const sector = 'regional banks';
+  // const sector = 'insurance brokers';
+  // const sector = 'food beverage';
+  // const sector = 'regional banks';
+  // const sector = 'diversified banks';
+  // const sector = 'financial exchanges data';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 

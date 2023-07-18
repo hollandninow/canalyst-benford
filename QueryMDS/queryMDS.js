@@ -6,7 +6,7 @@ class QueryMDS {
   constructor(token) {
     this.instance = axios.create({
       baseURL: this.APIRootURL,
-      timeout: 10000,
+      timeout: 20000,
       headers: {
         Authorization: 'Bearer ' + token,
       }

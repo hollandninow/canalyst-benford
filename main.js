@@ -12,7 +12,7 @@ const main = async () => {
     maxRequestWindowMS: 1000,
   });
 
-  const companyBenfordObj = await new BenfordAnalysis(process.env.CANALYST_JWT, 'MCO US', 'Bloomberg', rateLimiter).performMultipleAnalyses([
+  const companyBenfordObj = await new BenfordAnalysis(process.env.CANALYST_JWT, 'WFC US', 'Bloomberg', rateLimiter).performMultipleAnalyses([
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',

@@ -47,8 +47,8 @@ class SectorBenfordAnalysis {
       const companyBenfordObj = await bAnalysis.performMultipleAnalyses(fsStringArray);
 
       companyBenfordArray.push(companyBenfordObj);
+      
       const endTime = performance.now();
-
       console.log(`Finished analysis of ${ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
