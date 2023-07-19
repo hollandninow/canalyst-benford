@@ -1,13 +1,24 @@
 const catchAsync = require('../utils/catchAsync');
 const BenfordAnalysis = require('../benfordAnalysis/benfordAnalysis');
 const SectorBenfordAnalysis = require('../benfordAnalysis/sectorBenfordAnalysis');
+const BenfordVisualizer = require('../benfordVisualizer/benfordVisualizer');
 const AppError = require('../utils/appError');
 const LimiterLibraryRateLimiter = require('../helpers/limiterLibraryRateLimiter');
+const extractToken = require('../utils/extractToken');
 
 // fsString must be of the form "fs1,fs2,fs3" so it can easily be converted into an array
 const analyzeCompany = async (token, ticker, tickerType, fsString) => {
-  if (!(token && ticker && tickerType && fsString))
-    throw new AppError('Incorrect analysis parameters', 400)
+  if (!token) 
+    throw new AppError('Token not provided', 400);
+
+  if (!ticker)
+    throw new AppError('Ticker not provided.', 400);
+
+  if (!tickerType)
+    throw new AppError('Ticker type not provided.', 400);
+
+  if (!fsString)
+    throw new AppError('Financial statement string not provided.', 400);
 
   const fsStringArray = fsString.split(',');
 
@@ -27,7 +38,13 @@ const analyzeCompany = async (token, ticker, tickerType, fsString) => {
 }
 
 exports.getCompanyAnalysis = catchAsync(async (req, res, next) => {
-  const { token, ticker, tickerType, fsString } = req.body;
+  console.log(req.query);
+  const { ticker, tickerType, fsString } = req.query;
+
+  const token = extractToken(req);
+  if (!token) {
+    throw new AppError('Canalyst API token invalid or does not exist.', 401);
+  }
 
   let companyBenfordObj;
   try {
@@ -36,11 +53,12 @@ exports.getCompanyAnalysis = catchAsync(async (req, res, next) => {
     throw err;
   }
 
+  const HTMLMarkup = new BenfordVisualizer().createBaseHTML(companyBenfordObj, true);
+
   res.status(200).json({
     status: 'success',
     data: {
-      // TODO: change returned data to HTML markup
-      companyBenfordObj
+      HTMLMarkup
     }
   });
 });
