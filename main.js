@@ -8,11 +8,11 @@ const main = async () => {
   new initConfig('./config.env');
 
   const rateLimiter = new LimiterLibraryRateLimiter({
-    maxRequests: 5,
-    maxRequestWindowMS: 1000,
+    maxRequests: process.env.CANALYST_MAX_REQUESTS,
+    maxRequestWindowMS: process.env.CANALYST_MAX_REQUEST_WINDOW_MS,
   });
 
-  const companyBenfordObj = await new BenfordAnalysis(process.env.CANALYST_JWT, 'WFC US', 'Bloomberg', rateLimiter).performMultipleAnalyses([
+  const companyBenfordObj = await new BenfordAnalysis(process.env.CANALYST_JWT, 'AAPL US', 'Bloomberg', rateLimiter).performMultipleAnalyses([
     'Income Statement As Reported',
     'Balance Sheet',
     'Cash Flow Statement',
