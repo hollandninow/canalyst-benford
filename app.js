@@ -8,6 +8,9 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 
+const viewsRouter = require('./routers/viewsRouter');
+const analysisRouter = require('./routers/analysisRouter');
+
 const app = express();
 
 app.enable('trust proxy');
@@ -65,6 +68,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// TODO: add routers
+app.use('/api/v1/analysis', analysisRouter);
 
 module.exports = app;
