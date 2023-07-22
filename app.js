@@ -59,6 +59,9 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Data sanitization against XSS
 app.use(xss());
 
@@ -68,6 +71,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/', viewsRouter);
 app.use('/api/v1/analysis', analysisRouter);
 
 module.exports = app;
