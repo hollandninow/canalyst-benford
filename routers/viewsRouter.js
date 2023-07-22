@@ -3,6 +3,6 @@ const viewsController = require('../controllers/viewsController');
 
 const router = express.Router();
 
-// router.get('/app', viewsController.getAppView);
+router.get('/app', viewsController.getAppView);
 
 module.exports = router;
