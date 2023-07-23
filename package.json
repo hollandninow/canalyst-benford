@@ -2,13 +2,15 @@
   "name": "canalyst-benford",
   "version": "1.0.0",
   "description": "Use Canalyst MDS to perform Benford law analysis on financial statements",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "start": "node main.js",
     "sector": "node sectorMain.js",
     "test": "jest",
     "server": "SET NODE_ENV=production& node server.js",
-    "server:dev": "SET NODE_ENV=development& nodemon server.js"
+    "server:dev": "SET NODE_ENV=development& nodemon server.js",
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --public-url /js --out-file bundle.js",
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --public-url /js --out-file bundle.js"
   },
   "author": "Holland Ninow",
   "license": "ISC",
@@ -38,8 +40,10 @@
     "limiter": "^2.1.0",
     "morgan": "^1.10.0",
     "papaparse": "^5.4.1",
+    "parcel-bundler": "^1.12.5",
     "path": "^0.12.7",
     "plotly.js-dist": "^2.23.2",
+    "pug": "^3.0.2",
     "xss-clean": "^0.1.4"
   }
 }
