@@ -140,15 +140,15 @@
 }
 
 /**********************/
-/* RESULTS WINDOW */
+/* CHART WINDOW */
 /**********************/
-.results-window {
+.chart-window {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.results-window-text {
+.chart-window-text {
   font-size: 2.5rem;
   font-weight: 500;
   color: #888;
