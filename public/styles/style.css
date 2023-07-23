@@ -53,19 +53,24 @@
   margin-bottom: 1rem;
 }
 
-.container__label-input {
-  margin-bottom: 4rem;
+.form__group {
+  display: flex;
+  flex-direction: column;
 }
 
-.input__label {
-  display: block;
+.form__group:nth-last-child(2) {
+  margin-bottom: 2rem;
+}
+
+.label__input {
+  /* display: block; */
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 1rem;
 }
 
-.analysis__input {
-  display: block;
+.input__analysis {
+  /* display: block; */
   font-family: inherit;
   font-size: 1.5rem;
   color: inherit;
@@ -178,14 +183,6 @@
 
 .heading-secondary {
   font-size: 3rem;
-}
-
-.form__group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5rem;
-  margin-top: 1rem;
 }
 
 .button__login {

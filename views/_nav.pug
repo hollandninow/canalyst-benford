@@ -5,11 +5,13 @@ nav.nav.bg-color-primary-2
     .explanation Enter sector for sector analysis, or ticker for single company analysis. 
     .explanation If both fields are filled, program defaults to single company analysis.
 
-  .container__label-input
-    label.input__label(for='text') Sector
-    input#ticker.analysis__input(type='text', placeholder='e.g. Regional Banks')
+  form.form__analysis
+    .form__group
+      label.label__input(for='text') Sector
+      input#ticker.input__analysis(type='text', placeholder='e.g. Regional Banks')
 
-    label.input__label(for='text') Bloomberg Ticker
-    input#ticker.analysis__input(type='text', placeholder='e.g. AAPL US')
+    .form__group
+      label.label__input(for='text') Ticker
+      input#ticker.input__analysis(type='text', placeholder='e.g. AAPL US')
 
-  .button.button__run-analysis.bg-color-primary-4.color-grey-4 Run Analysis
+    button.button.button__run-analysis.bg-color-primary-4.color-grey-4 Run Analysis
