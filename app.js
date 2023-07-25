@@ -22,23 +22,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(cors());
 app.options('*', cors());
 
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'", 'data:', 'blob:', 'https:', 'ws:'],
+//         baseUri: ["'self'"],
+//         fontSrc: ["'self'", 'https:', 'data:'],
+//         scriptSrc: ["'self'", 'https:', 'http:', 'blob:', 'https://cdn.plot.ly/plotly-2.20.0.min.js'],
+//         frameSrc: ["'self'", 'https:', "'unsafe-inline'"],
+//         workerSrc: ["'self'", 'data:', 'blob:'],
+//       },
+//       childSrc: ["'self'", 'blob:'],
+//       imgSrc: ["'self'", 'data:', 'blob:'],
+//       formAction: ["'self'"],
+//       connectSrc: ["'self'", "'unsafe-inline'", 'data:', 'blob:'],
+//       upgradeInsecureRequests: [],
+//     },
+//   })
+// );
+
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'", 'data:', 'blob:', 'https:', 'ws:'],
-        baseUri: ["'self'"],
-        fontSrc: ["'self'", 'https:', 'data:'],
-        scriptSrc: ["'self'", 'https:', 'http:', 'blob:'],
-        frameSrc: ["'self'", 'https:', "'unsafe-inline'"],
-        workerSrc: ["'self'", 'data:', 'blob:'],
-      },
-      childSrc: ["'self'", 'blob:'],
-      imgSrc: ["'self'", 'data:', 'blob:'],
-      formAction: ["'self'"],
-      connectSrc: ["'self'", "'unsafe-inline'", 'data:', 'blob:'],
-      upgradeInsecureRequests: [],
-    },
+    contentSecurityPolicy: false,
   })
 );
 
