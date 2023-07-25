@@ -17,9 +17,9 @@ class BenfordVisualizer {
           name: 'Actual Frequency',
           hoverinfo: 'none',
           marker: {
-            color: '#3377FF',
+            color: '#96c8e9',
             line: {
-              color: 'rgb(8,48,107)',
+              color: '#44a6e7',
               width: 1.5
             }
           }
@@ -28,7 +28,9 @@ class BenfordVisualizer {
         const data${index} = [chart${index},benford];
     
         const layout${index} = {
-          title: '${benfordObj.getFinancialStatement()}'
+          title: '${benfordObj.getFinancialStatement()}',
+          plot_bgcolor: '#CBD4C8',
+          paper_bgcolor: '#CBD4C8',
         };
         
         Plotly.newPlot('myDiv${index}', data${index}, layout${index});
@@ -47,9 +49,7 @@ class BenfordVisualizer {
     return chartCodeArray;
   }
 
-  // fullHTML = true if you want HTML markup that works as a standalone page. 
-  // fullHTML = false if you want markup you can insert into another HTML page.
-  createBaseHTML(companyBenfordObj, fullHTML = true) {
+  createBaseHTML(companyBenfordObj) {
     const chartCodeArray = this.bundleChartCode(companyBenfordObj.getStatementBenfordArray());
     const ticker = companyBenfordObj.getTicker() === 'Multiple' ? companyBenfordObj.getSector() : companyBenfordObj.getTicker();
 
@@ -65,11 +65,23 @@ class BenfordVisualizer {
       chartDivArrStr += `<div id="myDiv${i}" style="width:1000px;height:400px;"></div>`;
     }
 
-    const middleHTML = `
-      <style>
+    const standaloneHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="preconnect" href="https://fonts.googleapis.com"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
+      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+      <title>${ticker}</title>
+    </head>
+    <style>
         h1 {
-          font-family: "Open Sans", verdana, arial, sans-serif;
-          font-weight: 400;
+          font-family: "Manrope", verdana, arial, sans-serif;
+          font-weight: 500;
+          color: #555;
         }
 
         body {
@@ -113,22 +125,10 @@ class BenfordVisualizer {
 
         </script>
       </body>
-    `
-
-    const baseHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>${ticker}</title>
-    </head>
-    ${middleHTML}
     </html>
     `
 
-    return fullHTML === true ? baseHTML : middleHTML;
+    return standaloneHTML;
   }
 }
 
