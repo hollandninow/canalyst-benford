@@ -9,7 +9,7 @@ const extractToken = require('../utils/extractToken');
 // fsString must be of the form "fs1,fs2,fs3" so it can easily be converted into an array
 const analyzeCompany = async (token, ticker, tickerType, fsString) => {
   if (!token) 
-    throw new AppError('Token not provided', 400);
+    throw new AppError('API token not provided', 400);
 
   if (!ticker)
     throw new AppError('Ticker not provided.', 400);
@@ -38,13 +38,7 @@ const analyzeCompany = async (token, ticker, tickerType, fsString) => {
 }
 
 exports.getCompanyAnalysis = catchAsync(async (req, res, next) => {
-  console.log(req.query);
-  const { ticker, tickerType, fsString } = req.query;
-
-  const token = extractToken(req);
-  if (!token) {
-    throw new AppError('Canalyst API token invalid or does not exist.', 401);
-  }
+  const { ticker, tickerType, fsString, token } = req.query;
 
   let companyBenfordObj;
   try {
@@ -53,7 +47,7 @@ exports.getCompanyAnalysis = catchAsync(async (req, res, next) => {
     throw err;
   }
 
-  const HTMLMarkup = new BenfordVisualizer().createBaseHTML(companyBenfordObj, true);
+  const HTMLMarkup = new BenfordVisualizer().createBaseHTML(companyBenfordObj);
 
   res.status(200).json({
     status: 'success',
