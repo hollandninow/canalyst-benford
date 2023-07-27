@@ -56,3 +56,53 @@ exports.getCompanyAnalysis = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+const analyzeSector = async (token, sector, fsString) => {
+  if (!token) 
+    throw new AppError('API token not provided', 400);
+
+  if (!sector)
+    throw new AppError('Sector not provided.', 400);
+
+  if (!fsString)
+    throw new AppError('Financial statement string not provided.', 400);
+
+  const fsStringArray = fsString.split(',');
+
+  let sectorBenfordObj;
+  try {
+    sectorBenfordObj = await new SectorBenfordAnalysis(token, sector).performFastSectorAnalysis(fsStringArray);
+  } catch (err) {
+    throw err;
+  }
+  
+  return sectorBenfordObj;
+}
+
+exports.getSectorAnalysis = catchAsync(async (req, res, next) => {
+  const { token, sector, fsString } = req.query;
+
+  let sectorBenfordObj;
+  try {
+    sectorBenfordObj = await analyzeSector(token, sector, fsString);
+  } catch (err) {
+    throw err;
+  }
+
+  const sectorHTMLMarkup = new BenfordVisualizer().createBaseHTML(sectorBenfordObj);
+
+  const sectorCompanyBenfordArray = sectorBenfordObj.getCompanyBenfordArray();
+
+  const HTMLMarkupArray = sectorCompanyBenfordArray.map( companyBenford => 
+    new BenfordVisualizer().createBaseHTML(companyBenford)  
+  );
+  
+  HTMLMarkupArray.unshift(sectorHTMLMarkup);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      HTMLMarkupArray
+    }
+  });
+});
