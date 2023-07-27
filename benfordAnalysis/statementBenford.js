@@ -1,6 +1,7 @@
 class StatementBenford {
   #ticker;
   #tickerType;
+  #companyName;
   #financialStatement;
   #csin;
   #modelVersion;
@@ -28,6 +29,14 @@ class StatementBenford {
 
   getTickerType() {
     return this.#tickerType;
+  }
+
+  getCompanyName() {
+    return this.#companyName;
+  }
+
+  setCompanyName(companyName) {
+    this.#companyName = companyName;
   }
 
   getFinancialStatement() {

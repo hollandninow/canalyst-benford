@@ -11,7 +11,7 @@ class CompanyBenford extends StatementBenford {
         const statementArray = [];
 
         statementBenfordArray.forEach(stmtBenford => {
-        statementArray.push(stmtBenford.getFinancialStatement());
+          statementArray.push(stmtBenford.getFinancialStatement());
         });
 
         return statementArray;
@@ -19,6 +19,7 @@ class CompanyBenford extends StatementBenford {
     });
 
     this.#statementBenfordArray = statementBenfordArray;
+    this.setCompanyName(statementBenfordArray[0].getCompanyName());
     this.setCSIN(statementBenfordArray[0].getCSIN());
     this.setModelVersion(statementBenfordArray[0].getModelVersion());
   }
