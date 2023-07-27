@@ -5,7 +5,7 @@
   height: 100%;
   display: grid;
   grid-template-rows: 2fr 20fr;
-  grid-template-columns: 2fr 2fr 6fr;
+  grid-template-columns: 2fr 3fr 6fr;
 
   overflow: hidden;
 }
@@ -63,14 +63,12 @@
 }
 
 .label__input {
-  /* display: block; */
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 1rem;
 }
 
 .input__analysis {
-  /* display: block; */
   font-family: inherit;
   font-size: 1.5rem;
   color: inherit;
@@ -104,6 +102,8 @@
 .selection-container {
   overflow-y: auto;
   padding: 1rem 2rem 1rem;
+    /* display: none when there's no sector data to display */
+  display: none;
 }
 
 .selection-header-1 {
@@ -148,6 +148,8 @@
 /* CHART WINDOW */
 /**********************/
 .chart-window {
+  /* grid-column when there is no sector data to display */
+  grid-column: 2 / span 2;
   display: flex;
   align-items: center;
   justify-content: center;
