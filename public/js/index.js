@@ -17,6 +17,7 @@ analysisForm.addEventListener('submit', async e => {
 
     // TODO: add loading graphic
     chartWindow.innerHTML = '';
+    hideSelectionList();
 
     if (!ticker && sector) {
       selectionList.innerHTML = '';
@@ -39,6 +40,11 @@ analysisForm.addEventListener('submit', async e => {
 
       displayChart(chartWindow, data.data.data.HTMLMarkup);
     }
+
+    const sectorListItem = document.querySelectorAll('.selection-list-item')[0];
+    sectorListItem.style.backgroundColor = '#d3e9e9';
+    sectorListItem.style.borderRadius = '1rem';
+    sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
   }
 );
 
@@ -67,6 +73,10 @@ const hideSelectionList = () => {
   selectionContainer.style.display = 'none';
 }
 
+const displayLoadingIcon = (parentEl) => {
+  // TODO:
+}
+
 const displaySelectionListItem = (sector = true, markup, parentEl) => {
   const selectionListItem = parentEl.appendChild(document.createElement('li'));
 
@@ -84,6 +94,7 @@ const displaySelectionListItem = (sector = true, markup, parentEl) => {
   selectionListItemSpan.textContent = name;
 
   selectionListItem.addEventListener('click', e => changeDisplayedChart(e, markup));
+  selectionListItem.addEventListener('click', e => highlightSelectedItem(e))
 
   if (!sector) {
     const selectionListItemSpanTicker = selectionListItem.appendChild(document.createElement('span'));
@@ -95,6 +106,25 @@ const displaySelectionListItem = (sector = true, markup, parentEl) => {
 
     selectionListItem.addEventListener('click', e => changeDisplayedChart(e, markup));
   }
+}
+
+const highlightSelectedItem = e => {
+  unhighlightSelectionListItems();
+
+  const selectedItem = e.target;
+  selectedItem.style.backgroundColor = '#d3e9e9';
+  selectedItem.style.borderRadius = '1rem';
+  selectedItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
+}
+
+const unhighlightSelectionListItems = () => {
+  const selectionListItems = document.querySelectorAll('.selection-list-item');
+
+  selectionListItems.forEach( el => {
+    el.style.backgroundColor = '';
+    el.style.borderRadius = '';
+    el.style.boxShadow = '';
+  });
 }
 
 const getTickerFromMarkup = markup => {

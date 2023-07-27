@@ -12195,7 +12195,7 @@ var selectionList = document.querySelector('.selection-list');
 // DELEGATION
 analysisForm.addEventListener('submit', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
-    var ticker, sector, token, fsString, data, markupArray, _data;
+    var ticker, sector, token, fsString, data, markupArray, _data, sectorListItem;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -12205,14 +12205,15 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           token = document.getElementById('token').value;
           fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported'; // TODO: add loading graphic
           chartWindow.innerHTML = '';
+          hideSelectionList();
           if (!(!ticker && sector)) {
-            _context.next = 15;
+            _context.next = 16;
             break;
           }
           selectionList.innerHTML = '';
-          _context.next = 10;
+          _context.next = 11;
           return (0, _runAnalysis.runSectorAnalysis)(token, sector, fsString);
-        case 10:
+        case 11:
           data = _context.sent;
           markupArray = data.data.data.HTMLMarkupArray;
           displaySelectionList();
@@ -12221,17 +12222,22 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
             var isSector = index === 0 ? true : false;
             displaySelectionListItem(isSector, markup, selectionList);
           });
-        case 15:
+        case 16:
           if (!ticker) {
-            _context.next = 20;
+            _context.next = 21;
             break;
           }
-          _context.next = 18;
+          _context.next = 19;
           return (0, _runAnalysis.runCompanyAnalysis)(token, ticker, 'Bloomberg', fsString);
-        case 18:
+        case 19:
           _data = _context.sent;
           displayChart(chartWindow, _data.data.data.HTMLMarkup);
-        case 20:
+        case 21:
+          sectorListItem = document.querySelectorAll('.selection-list-item')[0];
+          sectorListItem.style.backgroundColor = '#d3e9e9';
+          sectorListItem.style.borderRadius = '1rem';
+          sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
+        case 25:
         case "end":
           return _context.stop();
       }
@@ -12262,6 +12268,9 @@ var hideSelectionList = function hideSelectionList() {
   chartWindow.style.gridColumn = '2 / span 2';
   selectionContainer.style.display = 'none';
 };
+var displayLoadingIcon = function displayLoadingIcon(parentEl) {
+  // TODO:
+};
 var displaySelectionListItem = function displaySelectionListItem() {
   var sector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   var markup = arguments.length > 1 ? arguments[1] : undefined;
@@ -12279,6 +12288,9 @@ var displaySelectionListItem = function displaySelectionListItem() {
   selectionListItem.addEventListener('click', function (e) {
     return changeDisplayedChart(e, markup);
   });
+  selectionListItem.addEventListener('click', function (e) {
+    return highlightSelectedItem(e);
+  });
   if (!sector) {
     var selectionListItemSpanTicker = selectionListItem.appendChild(document.createElement('span'));
     selectionListItemSpanTicker.classList.add('selection-list-item__ticker');
@@ -12288,6 +12300,21 @@ var displaySelectionListItem = function displaySelectionListItem() {
       return changeDisplayedChart(e, markup);
     });
   }
+};
+var highlightSelectedItem = function highlightSelectedItem(e) {
+  unhighlightSelectionListItems();
+  var selectedItem = e.target;
+  selectedItem.style.backgroundColor = '#d3e9e9';
+  selectedItem.style.borderRadius = '1rem';
+  selectedItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
+};
+var unhighlightSelectionListItems = function unhighlightSelectionListItems() {
+  var selectionListItems = document.querySelectorAll('.selection-list-item');
+  selectionListItems.forEach(function (el) {
+    el.style.backgroundColor = '';
+    el.style.borderRadius = '';
+    el.style.boxShadow = '';
+  });
 };
 var getTickerFromMarkup = function getTickerFromMarkup(markup) {
   var tickerIndexStart = markup.indexOf('<h1>Benford\'s Law Analysis: ') + 28;
