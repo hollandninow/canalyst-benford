@@ -12,3 +12,16 @@ export const runCompanyAnalysis = async (token, ticker, tickerType, fsString) =>
     throw err;
   }
 }
+
+export const runSectorAnalysis = async (token, sector, fsString) => {
+  try {
+    const res = await axios({
+      method: 'GET',
+      url: `api/v1/analysis/sector?sector=${sector}&fsString=${fsString}&token=${token}`,
+    });
+
+    return res;
+  } catch (err) {
+    throw err;
+  }
+}
