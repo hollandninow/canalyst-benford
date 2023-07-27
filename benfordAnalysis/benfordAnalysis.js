@@ -61,6 +61,7 @@ class BenfordAnalysis {
       console.log(`Finished fetching equity model series set of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
+    statementBenfordObj.setCompanyName(this.#equityModelSeriesSet.getCompanyName());
     statementBenfordObj.setCSIN(this.#equityModelSeriesSet.getCSIN());
     statementBenfordObj.setModelVersion(this.#equityModelSeriesSet.getCurrentModelVersion());
 

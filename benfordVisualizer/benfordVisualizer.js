@@ -49,9 +49,11 @@ class BenfordVisualizer {
     return chartCodeArray;
   }
 
-  createBaseHTML(companyBenfordObj) {
-    const chartCodeArray = this.bundleChartCode(companyBenfordObj.getStatementBenfordArray());
-    const ticker = companyBenfordObj.getTicker() === 'Multiple' ? companyBenfordObj.getSector() : companyBenfordObj.getTicker();
+  createBaseHTML(benfordObj) {
+    const chartCodeArray = this.bundleChartCode(benfordObj.getStatementBenfordArray());
+    const ticker = benfordObj.getTicker() === 'Multiple' ? benfordObj.getSector() : benfordObj.getTicker();
+
+    const name = benfordObj.getCompanyName() === undefined ? ticker : benfordObj.getCompanyName();
 
     let chartCodeArrStr = '';
 
@@ -75,7 +77,7 @@ class BenfordVisualizer {
       <link rel="preconnect" href="https://fonts.googleapis.com"/>
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
       <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-      <title>${ticker}</title>
+      <title>${name}</title>
     </head>
     <style>
         h1 {
