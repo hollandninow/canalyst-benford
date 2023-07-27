@@ -79,9 +79,7 @@ const displaySelectionListItem = (sector = true, markup, parentEl) => {
     selectionListItemSpan.classList.add('selection-list-item__name');
   }
   
-  const nameIndexStart = markup.indexOf('<title>') + 7;
-  const nameIndexEnd = markup.indexOf('</title>');
-  const name = markup.slice(nameIndexStart, nameIndexEnd);
+  const name = getNameFromMarkup(markup);
 
   selectionListItemSpan.textContent = name;
 
@@ -91,12 +89,24 @@ const displaySelectionListItem = (sector = true, markup, parentEl) => {
     const selectionListItemSpanTicker = selectionListItem.appendChild(document.createElement('span'));
     selectionListItemSpanTicker.classList.add('selection-list-item__ticker');
 
-    const tickerIndexStart = markup.indexOf('<h1>Benford\'s Law Analysis: ') + 28;
-    const tickerIndexEnd = markup.indexOf('</h1>');
-    const ticker = markup.slice(tickerIndexStart, tickerIndexEnd);
+    const ticker = getTickerFromMarkup(markup);
 
     selectionListItemSpanTicker.textContent = ticker;
 
     selectionListItem.addEventListener('click', e => changeDisplayedChart(e, markup));
   }
+}
+
+const getTickerFromMarkup = markup => {
+  const tickerIndexStart = markup.indexOf('<h1>Benford\'s Law Analysis: ') + 28;
+  const tickerIndexEnd = markup.indexOf('</h1>');
+
+  return markup.slice(tickerIndexStart, tickerIndexEnd);
+}
+
+const getNameFromMarkup = markup => {
+  const nameIndexStart = markup.indexOf('<title>') + 7;
+  const nameIndexEnd = markup.indexOf('</title>');
+
+  return markup.slice(nameIndexStart, nameIndexEnd);
 }
