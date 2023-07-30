@@ -16,7 +16,9 @@ analysisForm.addEventListener('submit', async e => {
     const fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
 
     // TODO: add loading graphic
-    chartWindow.innerHTML = '';
+    renderSpinner(chartWindow);
+
+    // chartWindow.innerHTML = '';
     hideSelectionList();
 
     if (!ticker && sector) {
@@ -45,6 +47,8 @@ analysisForm.addEventListener('submit', async e => {
     sectorListItem.style.backgroundColor = '#d3e9e9';
     sectorListItem.style.borderRadius = '1rem';
     sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
+    
+    hideSpinner(chartWindow);
   }
 );
 
@@ -68,13 +72,20 @@ const displaySelectionList = () => {
   selectionContainer.style.display = 'block';
 }
 
+const renderSpinner = (parentEl) => {
+  const markup = `<div class="spinner"></div>`;
+  parentEl.style.position = 'relative';
+
+  parentEl.innerHTML = markup;
+}
+
+const hideSpinner = (parentEl) => {
+  parentEl.querySelector('.spinner').style.display = 'none';
+}
+
 const hideSelectionList = () => {
   chartWindow.style.gridColumn = '2 / span 2';
   selectionContainer.style.display = 'none';
-}
-
-const displayLoadingIcon = (parentEl) => {
-  // TODO:
 }
 
 const displaySelectionListItem = (sector = true, markup, parentEl) => {

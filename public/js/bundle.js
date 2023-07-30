@@ -12204,7 +12204,9 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           sector = document.getElementById('sector').value;
           token = document.getElementById('token').value;
           fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported'; // TODO: add loading graphic
-          chartWindow.innerHTML = '';
+          renderSpinner(chartWindow);
+
+          // chartWindow.innerHTML = '';
           hideSelectionList();
           if (!(!ticker && sector)) {
             _context.next = 16;
@@ -12237,7 +12239,8 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           sectorListItem.style.backgroundColor = '#d3e9e9';
           sectorListItem.style.borderRadius = '1rem';
           sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
-        case 25:
+          hideSpinner(chartWindow);
+        case 26:
         case "end":
           return _context.stop();
       }
@@ -12264,12 +12267,17 @@ var displaySelectionList = function displaySelectionList() {
   chartWindow.style.gridColumn = '3 / span 1';
   selectionContainer.style.display = 'block';
 };
+var renderSpinner = function renderSpinner(parentEl) {
+  var markup = "<div class=\"spinner\"></div>";
+  parentEl.style.position = 'relative';
+  parentEl.innerHTML = markup;
+};
+var hideSpinner = function hideSpinner(parentEl) {
+  parentEl.querySelector('.spinner').style.display = 'none';
+};
 var hideSelectionList = function hideSelectionList() {
   chartWindow.style.gridColumn = '2 / span 2';
   selectionContainer.style.display = 'none';
-};
-var displayLoadingIcon = function displayLoadingIcon(parentEl) {
-  // TODO:
 };
 var displaySelectionListItem = function displaySelectionListItem() {
   var sector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
@@ -12351,7 +12359,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56286" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55712" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
