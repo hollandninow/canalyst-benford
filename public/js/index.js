@@ -127,7 +127,7 @@ const displaySelectionListItem = (sector = true, markup, parentEl) => {
 const highlightSelectedItem = e => {
   unhighlightSelectionListItems();
 
-  const selectedItem = e.target;
+  const selectedItem = e.target.closest('.selection-list-item');
   selectedItem.style.backgroundColor = '#d3e9e9';
   selectedItem.style.borderRadius = '1rem';
   selectedItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';

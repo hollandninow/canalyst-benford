@@ -12312,7 +12312,7 @@ var displaySelectionListItem = function displaySelectionListItem() {
 };
 var highlightSelectedItem = function highlightSelectedItem(e) {
   unhighlightSelectionListItems();
-  var selectedItem = e.target;
+  var selectedItem = e.target.closest('.selection-list-item');
   selectedItem.style.backgroundColor = '#d3e9e9';
   selectedItem.style.borderRadius = '1rem';
   selectedItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
