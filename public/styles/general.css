@@ -130,8 +130,21 @@ body {
   }
 }
 
+/* @keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+} */
+
 .spinner::before {
   animation: 1.5s linear infinite spinner;
+  /* animation: spin 1s ease-in-out infinite; */
+  /* -webkit-animation: spin 1s ease-in-out infinite; */
   animation-play-state: inherit;
   border: solid 7px #84baf0;
   border-bottom-color: #1c87c9;
@@ -144,4 +157,15 @@ body {
   transform: translate3d(-50%, -50%, 0);
   width: 60px;
   will-change: transform;
+}
+
+.loading-message {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: #888;
 }

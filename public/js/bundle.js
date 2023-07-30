@@ -12203,10 +12203,8 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           ticker = document.getElementById('ticker').value;
           sector = document.getElementById('sector').value;
           token = document.getElementById('token').value;
-          fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported'; // TODO: add loading graphic
+          fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
           renderSpinner(chartWindow);
-
-          // chartWindow.innerHTML = '';
           hideSelectionList();
           if (!(!ticker && sector)) {
             _context.next = 16;
@@ -12240,7 +12238,8 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           sectorListItem.style.borderRadius = '1rem';
           sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
           hideSpinner(chartWindow);
-        case 26:
+          hideLoadingMessage(chartWindow);
+        case 27:
         case "end":
           return _context.stop();
       }
@@ -12251,7 +12250,6 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
   };
 }());
 var changeDisplayedChart = function changeDisplayedChart(e, markup) {
-  console.log(e);
   chartWindow.innerHTML = '';
   displayChart(chartWindow, markup);
 };
@@ -12268,12 +12266,15 @@ var displaySelectionList = function displaySelectionList() {
   selectionContainer.style.display = 'block';
 };
 var renderSpinner = function renderSpinner(parentEl) {
-  var markup = "<div class=\"spinner\"></div>";
+  var markup = "\n      <div class=\"loading-message\">This may take up to a few minutes depending on sector size.</div>\n      <div class=\"spinner\"></div>\n    ";
   parentEl.style.position = 'relative';
   parentEl.innerHTML = markup;
 };
 var hideSpinner = function hideSpinner(parentEl) {
   parentEl.querySelector('.spinner').style.display = 'none';
+};
+var hideLoadingMessage = function hideLoadingMessage(parentEl) {
+  parentEl.querySelector('.loading-message').style.display = 'none';
 };
 var hideSelectionList = function hideSelectionList() {
   chartWindow.style.gridColumn = '2 / span 2';
@@ -12359,7 +12360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55712" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59480" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -15,10 +15,8 @@ analysisForm.addEventListener('submit', async e => {
     const token = document.getElementById('token').value;
     const fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
 
-    // TODO: add loading graphic
     renderSpinner(chartWindow);
 
-    // chartWindow.innerHTML = '';
     hideSelectionList();
 
     if (!ticker && sector) {
@@ -49,14 +47,14 @@ analysisForm.addEventListener('submit', async e => {
     sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
     
     hideSpinner(chartWindow);
+    hideLoadingMessage(chartWindow);
   }
 );
 
 const changeDisplayedChart = (e, markup) => {
-  console.log(e);
   chartWindow.innerHTML = '';
   displayChart(chartWindow, markup);
-};
+}
 
 const displayChart = (parentEl, markup) => {
   const iframe = document.createElement('iframe');
@@ -73,7 +71,10 @@ const displaySelectionList = () => {
 }
 
 const renderSpinner = (parentEl) => {
-  const markup = `<div class="spinner"></div>`;
+  const markup = `
+      <div class="loading-message">This may take up to a few minutes depending on sector size.</div>
+      <div class="spinner"></div>
+    `;
   parentEl.style.position = 'relative';
 
   parentEl.innerHTML = markup;
@@ -81,6 +82,10 @@ const renderSpinner = (parentEl) => {
 
 const hideSpinner = (parentEl) => {
   parentEl.querySelector('.spinner').style.display = 'none';
+}
+
+const hideLoadingMessage = parentEl => {
+  parentEl.querySelector('.loading-message').style.display = 'none';
 }
 
 const hideSelectionList = () => {
