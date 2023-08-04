@@ -17,6 +17,7 @@ const main = async () => {
   // const sector = 'regional banks';
   // const sector = 'diversified banks';
   // const sector = 'financial exchanges data';
+  const sector = 'diversified banks';
 
   const sectorFolderName = sector.replaceAll(' ','-');
 

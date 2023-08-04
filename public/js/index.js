@@ -1,5 +1,6 @@
 import '@babel/polyfill';
 import { runCompanyAnalysis, runSectorAnalysis } from './runAnalysis';
+import { displayAlert, hideAlert } from './alerts';
 
 // DOM ELEMENTS
 const analysisForm = document.querySelector('.form__analysis');
@@ -16,7 +17,6 @@ analysisForm.addEventListener('submit', async e => {
     const fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
 
     renderSpinner(chartWindow);
-
     hideSelectionList();
 
     if (!ticker && sector) {
@@ -24,6 +24,9 @@ analysisForm.addEventListener('submit', async e => {
 
       const data = await runSectorAnalysis(token, sector, fsString);
       const markupArray = data.data.data.HTMLMarkupArray;
+
+      hideSpinner(chartWindow);
+      hideLoadingMessage(chartWindow);
 
       displaySelectionList();
 
@@ -36,18 +39,22 @@ analysisForm.addEventListener('submit', async e => {
     }
 
     if (ticker) {
-      const data = await runCompanyAnalysis(token, ticker, 'Bloomberg', fsString);
+      try {
+        const data = await runCompanyAnalysis(token, ticker, 'Bloomberg', fsString);
 
-      displayChart(chartWindow, data.data.data.HTMLMarkup);
+        displayChart(chartWindow, data.data.data.HTMLMarkup);
+        hideSpinner(chartWindow);
+        hideLoadingMessage(chartWindow);
+      } catch (err) {
+        console.log(err.response.data);
+        displayAlert(chartWindow, 'error', err.response.data);
+      }
     }
 
     const sectorListItem = document.querySelectorAll('.selection-list-item')[0];
     sectorListItem.style.backgroundColor = '#d3e9e9';
     sectorListItem.style.borderRadius = '1rem';
     sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
-    
-    hideSpinner(chartWindow);
-    hideLoadingMessage(chartWindow);
   }
 );
 
@@ -72,7 +79,7 @@ const displaySelectionList = () => {
 
 const renderSpinner = (parentEl) => {
   const markup = `
-      <div class="loading-message">This may take up to a few minutes depending on sector size.</div>
+      <div class="loading-message">Please be patient. This may take up to a few minutes.</div>
       <div class="spinner"></div>
     `;
   parentEl.style.position = 'relative';
@@ -156,3 +163,5 @@ const getNameFromMarkup = markup => {
 
   return markup.slice(nameIndexStart, nameIndexEnd);
 }
+
+
