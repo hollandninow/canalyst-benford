@@ -7,6 +7,7 @@ const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFre
 const StatementBenford = require('../benfordAnalysis/statementBenford');
 const CompanyBenford = require('../benfordAnalysis/companyBenford');
 const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
+const AppError = require('../utils/appError');
 
 class BenfordAnalysis {
   #equityModelSeriesSet;
@@ -14,7 +15,7 @@ class BenfordAnalysis {
 
   constructor(token, ticker, tickerType, rateLimiter) {
     this.token = token;
-    this.ticker = ticker;
+    this.ticker = ticker.toUpperCase();
     this.tickerType = tickerType;
     this.rateLimiter = rateLimiter;
   }
@@ -52,6 +53,11 @@ class BenfordAnalysis {
             format: 'json'
           }).getEquityModelSeriesSet())
         );
+
+        if (res.count === 0 && res.results.length === 0) {
+          throw new AppError('Error retrieving company. Double check the ticker.', 400);
+        }
+
         this.#equityModelSeriesSet = new EquityModelSeriesSet(res);
       } catch (err) {
         throw err;
