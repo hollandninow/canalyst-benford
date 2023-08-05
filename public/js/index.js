@@ -22,20 +22,25 @@ analysisForm.addEventListener('submit', async e => {
     if (!ticker && sector) {
       selectionList.innerHTML = '';
 
-      const data = await runSectorAnalysis(token, sector, fsString);
-      const markupArray = data.data.data.HTMLMarkupArray;
-
-      hideSpinner(chartWindow);
-      hideLoadingMessage(chartWindow);
-
-      displaySelectionList();
-
-      displayChart(chartWindow, markupArray[0]);
-
-      markupArray.forEach( (markup, index) => {
-        const isSector = index === 0 ? true : false;
-        displaySelectionListItem(isSector, markup, selectionList);
-      });
+      try {
+        const data = await runSectorAnalysis(token, sector, fsString);
+        const markupArray = data.data.data.HTMLMarkupArray;
+  
+        hideSpinner(chartWindow);
+        hideLoadingMessage(chartWindow);
+  
+        displaySelectionList();
+  
+        displayChart(chartWindow, markupArray[0]);
+  
+        markupArray.forEach( (markup, index) => {
+          const isSector = index === 0 ? true : false;
+          displaySelectionListItem(isSector, markup, selectionList);
+        });
+      } catch (err) {
+        console.log(err.response.data);
+        displayAlert(chartWindow, 'error', err.response.data);
+      }
     }
 
     if (ticker) {

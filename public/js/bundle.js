@@ -12227,13 +12227,14 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           renderSpinner(chartWindow);
           hideSelectionList();
           if (!(!ticker && sector)) {
-            _context.next = 18;
+            _context.next = 25;
             break;
           }
           selectionList.innerHTML = '';
-          _context.next = 11;
+          _context.prev = 9;
+          _context.next = 12;
           return (0, _runAnalysis.runSectorAnalysis)(token, sector, fsString);
-        case 11:
+        case 12:
           data = _context.sent;
           markupArray = data.data.data.HTMLMarkupArray;
           hideSpinner(chartWindow);
@@ -12244,36 +12245,43 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
             var isSector = index === 0 ? true : false;
             displaySelectionListItem(isSector, markup, selectionList);
           });
-        case 18:
+          _context.next = 25;
+          break;
+        case 21:
+          _context.prev = 21;
+          _context.t0 = _context["catch"](9);
+          console.log(_context.t0.response.data);
+          (0, _alerts.displayAlert)(chartWindow, 'error', _context.t0.response.data);
+        case 25:
           if (!ticker) {
-            _context.next = 32;
+            _context.next = 39;
             break;
           }
-          _context.prev = 19;
-          _context.next = 22;
+          _context.prev = 26;
+          _context.next = 29;
           return (0, _runAnalysis.runCompanyAnalysis)(token, ticker, 'Bloomberg', fsString);
-        case 22:
+        case 29:
           _data = _context.sent;
           displayChart(chartWindow, _data.data.data.HTMLMarkup);
           hideSpinner(chartWindow);
           hideLoadingMessage(chartWindow);
-          _context.next = 32;
+          _context.next = 39;
           break;
-        case 28:
-          _context.prev = 28;
-          _context.t0 = _context["catch"](19);
-          console.log(_context.t0.response.data);
-          (0, _alerts.displayAlert)(chartWindow, 'error', _context.t0.response.data);
-        case 32:
+        case 35:
+          _context.prev = 35;
+          _context.t1 = _context["catch"](26);
+          console.log(_context.t1.response.data);
+          (0, _alerts.displayAlert)(chartWindow, 'error', _context.t1.response.data);
+        case 39:
           sectorListItem = document.querySelectorAll('.selection-list-item')[0];
           sectorListItem.style.backgroundColor = '#d3e9e9';
           sectorListItem.style.borderRadius = '1rem';
           sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
-        case 36:
+        case 43:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[19, 28]]);
+    }, _callee, null, [[9, 21], [26, 35]]);
   }));
   return function (_x) {
     return _ref.apply(this, arguments);
@@ -12390,7 +12398,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52324" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53435" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
