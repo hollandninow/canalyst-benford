@@ -5,6 +5,7 @@ const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
 const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
 const LimiterLibraryRateLimiter = require('../helpers/limiterLibraryRateLimiter');
+const AppError = require('../utils/appError');
 
 class SectorBenfordAnalysis {
   constructor(token, sector) {
@@ -75,6 +76,9 @@ class SectorBenfordAnalysis {
     } catch (err) {
       console.error(`${err.code}: ${err.message}`);
     }
+    
+    if (+sectorListArray.count === 0)
+      throw new AppError(`The "${this.sector}" sector does not exist. Please try another.`, 400);
 
     const sectorCoverageListArray = sectorListArray.results.filter( model => model.is_in_coverage === true);
 
