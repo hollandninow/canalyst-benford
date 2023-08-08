@@ -38,7 +38,6 @@ analysisForm.addEventListener('submit', async e => {
           displaySelectionListItem(isSector, markup, selectionList);
         });
       } catch (err) {
-        console.log(err.response.data);
         displayAlert(chartWindow, 'error', err.response.data);
       }
     }

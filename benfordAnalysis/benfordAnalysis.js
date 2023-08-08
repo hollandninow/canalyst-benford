@@ -55,7 +55,7 @@ class BenfordAnalysis {
         );
 
         if (res.count === 0 && res.results.length === 0) {
-          throw new AppError('Error retrieving company. Double check the ticker.', 400);
+          throw new AppError(`"${this.ticker}" not found. Please try another.`, 400);
         }
 
         this.#equityModelSeriesSet = new EquityModelSeriesSet(res);
