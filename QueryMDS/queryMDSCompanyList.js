@@ -21,10 +21,10 @@ class QueryMDSCompanyList extends QueryMDS {
     const queryString = `${this.APIQueryURL}?${format ? `format=${format}` : ''}&${pageSize ? `page_size=${pageSize}` : ''}&${sector ? `sector=${formattedSector}` : ''}`;
 
      try {
-      const res = await this.instance.get(queryString)
+      const res = await this.instance.get(queryString);
       return res.data;
     } catch (err) {
-      console.error(`${err.code}: ${err.message}`);
+      throw err;
     }
   }
 }

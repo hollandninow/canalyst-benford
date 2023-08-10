@@ -1,9 +1,11 @@
 class BenfordVisualizer {
 
-  createChartCode(benfordObj, index) {
-    const frequencyDataArray = Object.keys(benfordObj.getFrequencyData()).map(bucket => benfordObj.getFrequencyData()[bucket]);
+  createChartCode(statementBenfordObj, index) {
+    const frequencyDataArray = Object.keys(statementBenfordObj.getFrequencyData()).map(bucket => statementBenfordObj.getFrequencyData()[bucket]);
+    const errorBarDataArray = statementBenfordObj.getErrorBarData();
 
     const frequencyDataArrayStr = `[${frequencyDataArray.toString()}]`;
+    const errorBarDataArrayStr = `[${errorBarDataArray.toString()}]`;
     
     const chartCode = `
         const yValue${index} = ${frequencyDataArrayStr};
@@ -11,6 +13,15 @@ class BenfordVisualizer {
         const chart${index} = {
           x: xValue,
           y: yValue${index},
+          error_y: {
+            type: 'data',
+            array: ${errorBarDataArrayStr},
+            visible: true,
+            color: '#444',
+            thickness: 1.5,
+            width: 5,
+            opacity: 1
+          },
           type: 'bar',
           text: yValue${index}.map(String),
           textposition: 'auto',
@@ -28,7 +39,7 @@ class BenfordVisualizer {
         const data${index} = [chart${index},benford];
     
         const layout${index} = {
-          title: '${benfordObj.getFinancialStatement()}',
+          title: '${statementBenfordObj.getFinancialStatement()}',
           plot_bgcolor: '#CBD4C8',
           paper_bgcolor: '#CBD4C8',
         };
