@@ -7,6 +7,7 @@ class StatementBenford {
   #modelVersion;
   #countData;
   #frequencyData;
+  #errorBarData;
 
   constructor(options) {
     if(!options.ticker)
@@ -73,6 +74,14 @@ class StatementBenford {
 
   setFrequencyData(frequencyDataObj) {
     this.#frequencyData = frequencyDataObj;
+  }
+
+  getErrorBarData() {
+    return this.#errorBarData;
+  }
+
+  setErrorBarData(errorBarArray) {
+    this.#errorBarData = errorBarArray;
   }
 }
 
