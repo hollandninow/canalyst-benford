@@ -3,6 +3,7 @@ const SectorBenford = require('./sectorBenford');
 const StatementBenford = require('./statementBenford');
 const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
+const { getErrorBarValues } = require('../helpers/errorBar');
 const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
 const LimiterLibraryRateLimiter = require('../helpers/limiterLibraryRateLimiter');
 const AppError = require('../utils/appError');
@@ -156,6 +157,8 @@ class SectorBenfordAnalysis {
     statementBenfordObj.setFrequencyData(
       calculateLeadingDigitFrequencies(statementBenfordObj.getCountData(), {rounded: true})
     );
+
+    statementBenfordObj.setErrorBarData(getErrorBarValues(statementBenfordObj));
 
     return statementBenfordObj;
   }

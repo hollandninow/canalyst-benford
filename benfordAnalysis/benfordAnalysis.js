@@ -4,6 +4,7 @@ const CompanyBulkData = require('../dataCSV/companyBulkData');
 const EquityModelSeriesSet = require('../equityModelSeriesSet/equityModelSeriesSet');
 const LeadingDigitCounter = require('../helpers/leadingDigitCounter');
 const { calculateLeadingDigitFrequencies } = require('../helpers/leadingDigitFrequency');
+const { getErrorBarValues } = require('../helpers/errorBar');
 const StatementBenford = require('../benfordAnalysis/statementBenford');
 const CompanyBenford = require('../benfordAnalysis/companyBenford');
 const { fetchAndRetryIfNecessary } = require('../helpers/fetchAndRetryIfNecessary');
@@ -101,6 +102,8 @@ class BenfordAnalysis {
     statementBenfordObj.setFrequencyData(
       calculateLeadingDigitFrequencies(statementBenfordObj.getCountData(), {rounded: true})
     );
+
+    statementBenfordObj.setErrorBarData(getErrorBarValues(statementBenfordObj));
 
     return statementBenfordObj;
   }
