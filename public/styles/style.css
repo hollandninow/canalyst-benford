@@ -53,13 +53,17 @@
   margin-bottom: 1rem;
 }
 
+.form__container {
+  margin-bottom: 5rem;
+}
+
 .form__group {
   display: flex;
   flex-direction: column;
 }
 
 .form__group:nth-last-child(2) {
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .label__input {

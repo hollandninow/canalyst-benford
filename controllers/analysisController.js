@@ -4,7 +4,6 @@ const SectorBenfordAnalysis = require('../benfordAnalysis/sectorBenfordAnalysis'
 const BenfordVisualizer = require('../benfordVisualizer/benfordVisualizer');
 const AppError = require('../utils/appError');
 const LimiterLibraryRateLimiter = require('../helpers/limiterLibraryRateLimiter');
-const extractToken = require('../utils/extractToken');
 
 // fsString must be of the form "fs1,fs2,fs3" so it can easily be converted into an array
 const analyzeCompany = async (token, ticker, tickerType, fsString) => {

@@ -1,19 +1,28 @@
 import '@babel/polyfill';
 import { runCompanyAnalysis, runSectorAnalysis } from './runAnalysis';
-import { displayAlert, hideAlert } from './alerts';
+import { displayAlert } from './alerts';
+import { setCookie, getCookie } from './cookie';
 
 // DOM ELEMENTS
 const analysisForm = document.querySelector('.form__analysis');
+const tokenForm = document.querySelector('.form__token');
 const chartWindow = document.querySelector('.chart-window');
 const selectionContainer = document.querySelector('.selection-container');
 const selectionList = document.querySelector('.selection-list');
 
 // DELEGATION
+tokenForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const token = document.getElementById('token').value;
+
+  setCookie('jwt', token, 7);
+});
+
 analysisForm.addEventListener('submit', async e => {
     e.preventDefault();
     const ticker = document.getElementById('ticker').value;
     const sector = document.getElementById('sector').value;
-    const token = document.getElementById('token').value;
+    const token = getCookie('jwt');
     const fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
 
     renderSpinner(chartWindow);
@@ -167,5 +176,3 @@ const getNameFromMarkup = markup => {
 
   return markup.slice(nameIndexStart, nameIndexEnd);
 }
-
-
