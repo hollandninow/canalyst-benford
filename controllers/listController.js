@@ -28,5 +28,24 @@ exports.getTickerList = catchAsync(async (req, res, next) => {
 });
 
 exports.getSectorList = catchAsync(async (req, res, next) => {
-  // TODO:
+  const { token } = req.query;
+  // getting company list is only to verify token
+  const queryMDS = new QueryMDSCompanyList(token);
+  let companyList;
+  try {
+    companyList = await queryMDS.getCompanyList({
+      format: 'csv',
+    });
+  } catch (err) {
+    throw err;
+  }
+
+  const sectorList = process.env.CANALYST_SECTORS.split(', ');
+  
+  res.status(200).json({
+    status: 'success',
+    data: {
+      sectors: sectorList
+    }
+  });
 });

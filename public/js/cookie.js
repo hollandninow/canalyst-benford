@@ -20,3 +20,5 @@ exports.getCookie = name => {
   }
   return null;
 }
+
+// TODO: remove cookie

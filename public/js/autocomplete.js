@@ -1,5 +1,5 @@
 exports.autocomplete = (input, array) => {
-  let currentFocus = -1;
+  let currentFocus = 0;
 
   input.addEventListener('input', function(e) {
     let list, listItem, val = this.value;
@@ -49,10 +49,13 @@ exports.autocomplete = (input, array) => {
 
       // if ENTER key is pressed, prevent form from being submitted
     } else if (e.keyCode === 13) {
-      e.preventDefault();
-      
       if (currentFocus > -1) {
+        e.preventDefault();
         if (x) x[currentFocus].click();
+      }
+
+      if (currentFocus === -1) {
+        document.querySelector('.form__analysis').submit();
       }
     }
   });
@@ -75,6 +78,7 @@ exports.autocomplete = (input, array) => {
   }
 
   const closeAllLists = el => {
+    currentFocus = -1;
     let x = document.getElementsByClassName('autocomplete-items');
 
     for(let i = 0; i < x.length; i++) {

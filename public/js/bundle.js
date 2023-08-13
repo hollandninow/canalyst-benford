@@ -12091,9 +12091,11 @@ exports.getCookie = function (name) {
   }
   return null;
 };
+
+// TODO: remove cookie
 },{}],"autocomplete.js":[function(require,module,exports) {
 exports.autocomplete = function (input, array) {
-  var currentFocus = -1;
+  var currentFocus = 0;
   input.addEventListener('input', function (e) {
     var list,
       listItem,
@@ -12133,9 +12135,12 @@ exports.autocomplete = function (input, array) {
 
       // if ENTER key is pressed, prevent form from being submitted
     } else if (e.keyCode === 13) {
-      e.preventDefault();
       if (currentFocus > -1) {
+        e.preventDefault();
         if (x) x[currentFocus].click();
+      }
+      if (currentFocus === -1) {
+        document.querySelector('.form__analysis').submit();
       }
     }
   });
@@ -12152,6 +12157,7 @@ exports.autocomplete = function (input, array) {
     }
   };
   var closeAllLists = function closeAllLists(el) {
+    currentFocus = -1;
     var x = document.getElementsByClassName('autocomplete-items');
     for (var i = 0; i < x.length; i++) {
       if (el !== x[i] && el !== input) {
@@ -12169,7 +12175,7 @@ exports.autocomplete = function (input, array) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.loadTickerList = void 0;
+exports.loadTickerList = exports.loadSectorList = void 0;
 var _axios = _interopRequireDefault(require("axios"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -12206,6 +12212,36 @@ var loadTickerList = /*#__PURE__*/function () {
   };
 }();
 exports.loadTickerList = loadTickerList;
+var loadSectorList = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(token) {
+    var res;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.prev = 0;
+          _context2.next = 3;
+          return (0, _axios.default)({
+            method: 'GET',
+            url: "api/v1/list/sector?token=".concat(token)
+          });
+        case 3:
+          res = _context2.sent;
+          return _context2.abrupt("return", res);
+        case 7:
+          _context2.prev = 7;
+          _context2.t0 = _context2["catch"](0);
+          throw _context2.t0;
+        case 10:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2, null, [[0, 7]]);
+  }));
+  return function loadSectorList(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+exports.loadSectorList = loadSectorList;
 },{"axios":"../../node_modules/axios/index.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -12394,6 +12430,7 @@ tickerInput.addEventListener('click', /*#__PURE__*/function () {
 }());
 sectorInput.addEventListener('click', /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(e) {
+    var sectors;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -12403,11 +12440,13 @@ sectorInput.addEventListener('click', /*#__PURE__*/function () {
           }
           return _context2.abrupt("return", false);
         case 2:
-          // const tickers = (await loadTickerList(getCookie('jwt'))).data.data.tickers;
-
-          (0, _autocomplete.autocomplete)(sectorInput, ['Reinsurance', 'Diversified Banks', 'Real Estate']);
-          sectorsLoaded = true;
+          _context2.next = 4;
+          return (0, _loadList.loadSectorList)((0, _cookie.getCookie)('jwt'));
         case 4:
+          sectors = _context2.sent.data.data.sectors;
+          (0, _autocomplete.autocomplete)(sectorInput, sectors);
+          sectorsLoaded = true;
+        case 7:
         case "end":
           return _context2.stop();
       }

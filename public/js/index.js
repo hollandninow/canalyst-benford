@@ -3,7 +3,7 @@ import { runCompanyAnalysis, runSectorAnalysis } from './runAnalysis';
 import { displayAlert } from './alerts';
 import { setCookie, getCookie } from './cookie';
 import { autocomplete } from './autocomplete';
-import { loadTickerList } from './loadList';
+import { loadTickerList, loadSectorList } from './loadList';
 
 // DOM ELEMENTS
 const analysisForm = document.querySelector('.form__analysis');
@@ -33,9 +33,9 @@ sectorInput.addEventListener('click', async e => {
   if (!document.cookie || sectorsLoaded)
     return false;
 
-  // const tickers = (await loadTickerList(getCookie('jwt'))).data.data.tickers;
+  const sectors = (await loadSectorList(getCookie('jwt'))).data.data.sectors;
 
-  autocomplete(sectorInput, ['Reinsurance', 'Diversified Banks', 'Real Estate']);
+  autocomplete(sectorInput, sectors);
   sectorsLoaded = true;
 });
 
