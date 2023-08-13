@@ -3,6 +3,7 @@ import { runCompanyAnalysis, runSectorAnalysis } from './runAnalysis';
 import { displayAlert } from './alerts';
 import { setCookie, getCookie } from './cookie';
 import { autocomplete } from './autocomplete';
+import { loadTickerList } from './loadList';
 
 // DOM ELEMENTS
 const analysisForm = document.querySelector('.form__analysis');
@@ -13,9 +14,32 @@ const selectionList = document.querySelector('.selection-list');
 const sectorInput = document.getElementById('sector');
 const tickerInput = document.getElementById('ticker');
 
+// Load state
+let tickersLoaded = false;
+let sectorsLoaded = false;
+
 // DELEGATION
-autocomplete(sectorInput, ['Reinsurance', 'Diversified Banks', 'Real Estate']);
-autocomplete(tickerInput, ['AAPL US', 'JPM US', 'ATKR US']);
+tickerInput.addEventListener('click', async e => {
+  if (!document.cookie || tickersLoaded)
+    return false;
+
+  const tickers = (await loadTickerList(getCookie('jwt'))).data.data.tickers;
+
+  autocomplete(tickerInput, tickers);
+  tickersLoaded = true;
+});
+
+sectorInput.addEventListener('click', async e => {
+  if (!document.cookie || sectorsLoaded)
+    return false;
+
+  // const tickers = (await loadTickerList(getCookie('jwt'))).data.data.tickers;
+
+  autocomplete(sectorInput, ['Reinsurance', 'Diversified Banks', 'Real Estate']);
+  sectorsLoaded = true;
+});
+
+
 
 tokenForm.addEventListener('submit', async e => {
   e.preventDefault();

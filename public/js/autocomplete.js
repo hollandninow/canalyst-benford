@@ -12,7 +12,6 @@ exports.autocomplete = (input, array) => {
     list = document.createElement('div');
     list.setAttribute('id', this.id + '-autocomplete-list');
     list.setAttribute('class', 'autocomplete-items');
-    console.log(list);
     this.parentNode.appendChild(list);
 
     array.forEach( (item, index) => {
