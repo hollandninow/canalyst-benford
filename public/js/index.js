@@ -39,8 +39,6 @@ sectorInput.addEventListener('click', async e => {
   sectorsLoaded = true;
 });
 
-
-
 tokenForm.addEventListener('submit', async e => {
   e.preventDefault();
   const token = document.getElementById('token').value;

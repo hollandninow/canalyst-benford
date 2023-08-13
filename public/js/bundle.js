@@ -12072,7 +12072,9 @@ var parseAlertMessage = function parseAlertMessage(markup) {
   return markup.slice(messageIndexStart, messageIndexEnd);
 };
 },{}],"cookie.js":[function(require,module,exports) {
+var _this = this;
 exports.setCookie = function (name, value, days) {
+  _this.deleteCookie();
   var expires = '';
   if (days) {
     var date = new Date();
@@ -12091,8 +12093,9 @@ exports.getCookie = function (name) {
   }
   return null;
 };
-
-// TODO: remove cookie
+exports.deleteCookie = function () {
+  document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+};
 },{}],"autocomplete.js":[function(require,module,exports) {
 exports.autocomplete = function (input, array) {
   var currentFocus = 0;

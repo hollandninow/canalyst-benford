@@ -1,4 +1,5 @@
 exports.setCookie = (name, value, days) => {
+  this.deleteCookie();
   let expires = '';
 
   if (days) {
@@ -21,4 +22,6 @@ exports.getCookie = name => {
   return null;
 }
 
-// TODO: remove cookie
+exports.deleteCookie = () => {
+  document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+}
