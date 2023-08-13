@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import { runCompanyAnalysis, runSectorAnalysis } from './runAnalysis';
 import { displayAlert } from './alerts';
 import { setCookie, getCookie } from './cookie';
+import { autocomplete } from './autocomplete';
 
 // DOM ELEMENTS
 const analysisForm = document.querySelector('.form__analysis');
@@ -9,8 +10,13 @@ const tokenForm = document.querySelector('.form__token');
 const chartWindow = document.querySelector('.chart-window');
 const selectionContainer = document.querySelector('.selection-container');
 const selectionList = document.querySelector('.selection-list');
+const sectorInput = document.getElementById('sector');
+const tickerInput = document.getElementById('ticker');
 
 // DELEGATION
+autocomplete(sectorInput, ['Reinsurance', 'Diversified Banks', 'Real Estate']);
+autocomplete(tickerInput, ['AAPL US', 'JPM US', 'ATKR US']);
+
 tokenForm.addEventListener('submit', async e => {
   e.preventDefault();
   const token = document.getElementById('token').value;

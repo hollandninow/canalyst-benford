@@ -5,12 +5,12 @@ nav.nav.bg-color-primary-2
     .explanation Enter sector for sector analysis, or ticker for single company analysis. 
     .explanation If both fields are filled, program defaults to single company analysis.
 
-  form.form__container.form__analysis
-    .form__group
+  form.form__container.form__analysis(autocomplete='off')
+    .form__group.autocomplete
       label.label__input(for='sector') Sector
       input#sector.input__analysis(type='text', placeholder='e.g. Regional Banks')
 
-    .form__group
+    .form__group.autocomplete
       label.label__input(for='ticker') Ticker
       input#ticker.input__analysis(type='text', placeholder='e.g. AAPL US')
     
