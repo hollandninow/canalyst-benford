@@ -10,6 +10,7 @@ const cors = require('cors');
 
 const viewsRouter = require('./routers/viewsRouter');
 const analysisRouter = require('./routers/analysisRouter');
+const listRouter = require('./routers/listRouter');
 
 const app = express();
 
@@ -79,5 +80,6 @@ app.use((req, res, next) => {
 
 app.use('/', viewsRouter);
 app.use('/api/v1/analysis', analysisRouter);
+app.use('/api/v1/list', listRouter);
 
 module.exports = app;
