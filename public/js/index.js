@@ -89,6 +89,11 @@ analysisForm.addEventListener('submit', async e => {
           const isSector = index === 0 ? true : false;
           displaySelectionListItem(isSector, markup, selectionList);
         });
+
+        const sectorListItem = document.querySelectorAll('.selection-list-item')[0];
+        sectorListItem.style.backgroundColor = '#d3e9e9';
+        sectorListItem.style.borderRadius = '1rem';
+        sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
       } catch (err) {
         enableButton(runAnalysisBtn);
         displayAlert(chartWindow, 'error', err.response.data);
@@ -108,11 +113,6 @@ analysisForm.addEventListener('submit', async e => {
         displayAlert(chartWindow, 'error', err.response.data);
       }
     }
-
-    const sectorListItem = document.querySelectorAll('.selection-list-item')[0];
-    sectorListItem.style.backgroundColor = '#d3e9e9';
-    sectorListItem.style.borderRadius = '1rem';
-    sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
   }
 );
 
