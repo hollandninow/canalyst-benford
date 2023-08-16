@@ -14,6 +14,9 @@ export const displayAlert = (parentEl, type, message) => {
 }
 
 const parseAlertMessage = markup => {
+  if (markup.indexOf('<pre>') === -1 )
+    return markup;
+
   const messageIndexStart = markup.indexOf('<pre>') + '<pre>'.length;
   const messageIndexEnd = markup.indexOf('<br>');
 

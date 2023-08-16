@@ -63,6 +63,15 @@ analysisForm.addEventListener('submit', async e => {
 
     const ticker = document.getElementById('ticker').value;
     const sector = document.getElementById('sector').value;
+
+    if (ticker === '' && sector === '') {
+      enableButton(runAnalysisBtn);
+      displayAlert(chartWindow, 'error', 'Please enter a ticker or a sector to analyze.');
+
+      return false;
+    }
+      
+
     const token = getCookie('jwt');
     const fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
 

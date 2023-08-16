@@ -12067,6 +12067,7 @@ var displayAlert = function displayAlert(parentEl, type, message) {
 };
 exports.displayAlert = displayAlert;
 var parseAlertMessage = function parseAlertMessage(markup) {
+  if (markup.indexOf('<pre>') === -1) return markup;
   var messageIndexStart = markup.indexOf('<pre>') + '<pre>'.length;
   var messageIndexEnd = markup.indexOf('<br>');
   return markup.slice(messageIndexStart, messageIndexEnd);
@@ -12509,19 +12510,27 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           (0, _button.disableButton)(runAnalysisBtn);
           ticker = document.getElementById('ticker').value;
           sector = document.getElementById('sector').value;
+          if (!(ticker === '' && sector === '')) {
+            _context4.next = 8;
+            break;
+          }
+          (0, _button.enableButton)(runAnalysisBtn);
+          (0, _alerts.displayAlert)(chartWindow, 'error', 'Please enter a ticker or a sector to analyze.');
+          return _context4.abrupt("return", false);
+        case 8:
           token = (0, _cookie.getCookie)('jwt');
           fsString = 'Income Statement As Reported,Balance Sheet,Cash Flow Statement,Adjusted Numbers As Reported';
           renderSpinner(chartWindow);
           hideSelectionList();
           if (!(!ticker && sector)) {
-            _context4.next = 31;
+            _context4.next = 35;
             break;
           }
           selectionList.innerHTML = '';
-          _context4.prev = 10;
-          _context4.next = 13;
+          _context4.prev = 14;
+          _context4.next = 17;
           return (0, _runAnalysis.runSectorAnalysis)(token, sector, fsString);
-        case 13:
+        case 17:
           data = _context4.sent;
           markupArray = data.data.data.HTMLMarkupArray;
           hideSpinner(chartWindow);
@@ -12537,39 +12546,39 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           sectorListItem.style.backgroundColor = '#d3e9e9';
           sectorListItem.style.borderRadius = '1rem';
           sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
-          _context4.next = 31;
+          _context4.next = 35;
           break;
-        case 27:
-          _context4.prev = 27;
-          _context4.t0 = _context4["catch"](10);
+        case 31:
+          _context4.prev = 31;
+          _context4.t0 = _context4["catch"](14);
           (0, _button.enableButton)(runAnalysisBtn);
           (0, _alerts.displayAlert)(chartWindow, 'error', _context4.t0.response.data);
-        case 31:
+        case 35:
           if (!ticker) {
-            _context4.next = 46;
+            _context4.next = 50;
             break;
           }
-          _context4.prev = 32;
-          _context4.next = 35;
+          _context4.prev = 36;
+          _context4.next = 39;
           return (0, _runAnalysis.runCompanyAnalysis)(token, ticker, 'Bloomberg', fsString);
-        case 35:
+        case 39:
           _data = _context4.sent;
           displayChart(chartWindow, _data.data.data.HTMLMarkup);
           (0, _button.enableButton)(runAnalysisBtn);
           hideSpinner(chartWindow);
           hideLoadingMessage(chartWindow);
-          _context4.next = 46;
+          _context4.next = 50;
           break;
-        case 42:
-          _context4.prev = 42;
-          _context4.t1 = _context4["catch"](32);
+        case 46:
+          _context4.prev = 46;
+          _context4.t1 = _context4["catch"](36);
           (0, _button.enableButton)(runAnalysisBtn);
           (0, _alerts.displayAlert)(chartWindow, 'error', _context4.t1.response.data);
-        case 46:
+        case 50:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[10, 27], [32, 42]]);
+    }, _callee4, null, [[14, 31], [36, 46]]);
   }));
   return function (_x4) {
     return _ref4.apply(this, arguments);
