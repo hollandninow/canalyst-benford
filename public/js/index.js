@@ -4,6 +4,7 @@ import { displayAlert } from './alerts';
 import { setCookie, getCookie } from './cookie';
 import { autocomplete } from './autocomplete';
 import { loadTickerList, loadSectorList } from './loadList';
+import { disableButton, enableButton } from './button';
 
 // DOM ELEMENTS
 const analysisForm = document.querySelector('.form__analysis');
@@ -14,6 +15,7 @@ const selectionList = document.querySelector('.selection-list');
 const sectorInput = document.getElementById('sector');
 const tickerInput = document.getElementById('ticker');
 const tokenInput = document.getElementById('token');
+const runAnalysisBtn = document.querySelector('.button__run-analysis');
 
 // Load state
 let tickersLoaded = false;
@@ -24,6 +26,7 @@ if (document.cookie) {
   tokenInput.value = getCookie('jwt');
 }
 
+// Populate ticker dropdown
 tickerInput.addEventListener('click', async e => {
   if (!document.cookie || tickersLoaded)
     return false;
@@ -34,6 +37,7 @@ tickerInput.addEventListener('click', async e => {
   tickersLoaded = true;
 });
 
+// Populate sector dropdown
 sectorInput.addEventListener('click', async e => {
   if (!document.cookie || sectorsLoaded)
     return false;
@@ -44,6 +48,7 @@ sectorInput.addEventListener('click', async e => {
   sectorsLoaded = true;
 });
 
+// Save token
 tokenForm.addEventListener('submit', async e => {
   e.preventDefault();
   const token = document.getElementById('token').value;
@@ -51,8 +56,11 @@ tokenForm.addEventListener('submit', async e => {
   setCookie('jwt', token, 7);
 });
 
+// Run Analysis
 analysisForm.addEventListener('submit', async e => {
     e.preventDefault();
+    disableButton(runAnalysisBtn);
+
     const ticker = document.getElementById('ticker').value;
     const sector = document.getElementById('sector').value;
     const token = getCookie('jwt');
@@ -74,6 +82,8 @@ analysisForm.addEventListener('submit', async e => {
         displaySelectionList();
   
         displayChart(chartWindow, markupArray[0]);
+
+        enableButton(runAnalysisBtn);
   
         markupArray.forEach( (markup, index) => {
           const isSector = index === 0 ? true : false;
@@ -89,6 +99,7 @@ analysisForm.addEventListener('submit', async e => {
         const data = await runCompanyAnalysis(token, ticker, 'Bloomberg', fsString);
 
         displayChart(chartWindow, data.data.data.HTMLMarkup);
+        enableButton(runAnalysisBtn);
         hideSpinner(chartWindow);
         hideLoadingMessage(chartWindow);
       } catch (err) {
