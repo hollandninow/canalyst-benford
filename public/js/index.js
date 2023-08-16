@@ -13,12 +13,17 @@ const selectionContainer = document.querySelector('.selection-container');
 const selectionList = document.querySelector('.selection-list');
 const sectorInput = document.getElementById('sector');
 const tickerInput = document.getElementById('ticker');
+const tokenInput = document.getElementById('token');
 
 // Load state
 let tickersLoaded = false;
 let sectorsLoaded = false;
 
 // DELEGATION
+if (document.cookie) {
+  tokenInput.value = getCookie('jwt');
+}
+
 tickerInput.addEventListener('click', async e => {
   if (!document.cookie || tickersLoaded)
     return false;

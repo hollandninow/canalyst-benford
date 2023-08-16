@@ -12397,12 +12397,16 @@ var selectionContainer = document.querySelector('.selection-container');
 var selectionList = document.querySelector('.selection-list');
 var sectorInput = document.getElementById('sector');
 var tickerInput = document.getElementById('ticker');
+var tokenInput = document.getElementById('token');
 
 // Load state
 var tickersLoaded = false;
 var sectorsLoaded = false;
 
 // DELEGATION
+if (document.cookie) {
+  tokenInput.value = (0, _cookie.getCookie)('jwt');
+}
 tickerInput.addEventListener('click', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
     var tickers;
@@ -12662,7 +12666,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59085" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56247" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
