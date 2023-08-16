@@ -1,5 +1,5 @@
 exports.autocomplete = (input, array) => {
-  let currentFocus = 0;
+  let currentFocus = -1;
 
   input.addEventListener('input', function(e) {
     let list, listItem, val = this.value;
@@ -49,14 +49,10 @@ exports.autocomplete = (input, array) => {
 
       // if ENTER key is pressed, prevent form from being submitted
     } else if (e.keyCode === 13) {
-      if (currentFocus > -1) {
         e.preventDefault();
-        if (x) x[currentFocus].click();
-      }
-
-      if (currentFocus === -1) {
-        document.querySelector('.form__analysis').submit();
-      }
+        if (currentFocus > -1) {
+          if (x) x[currentFocus].click();
+        }
     }
   });
 

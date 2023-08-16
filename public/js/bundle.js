@@ -12099,7 +12099,7 @@ exports.deleteCookie = function () {
 };
 },{}],"autocomplete.js":[function(require,module,exports) {
 exports.autocomplete = function (input, array) {
-  var currentFocus = 0;
+  var currentFocus = -1;
   input.addEventListener('input', function (e) {
     var list,
       listItem,
@@ -12139,12 +12139,9 @@ exports.autocomplete = function (input, array) {
 
       // if ENTER key is pressed, prevent form from being submitted
     } else if (e.keyCode === 13) {
+      e.preventDefault();
       if (currentFocus > -1) {
-        e.preventDefault();
         if (x) x[currentFocus].click();
-      }
-      if (currentFocus === -1) {
-        document.querySelector('.form__analysis').submit();
       }
     }
   });
