@@ -12514,7 +12514,7 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
           renderSpinner(chartWindow);
           hideSelectionList();
           if (!(!ticker && sector)) {
-            _context4.next = 26;
+            _context4.next = 27;
             break;
           }
           selectionList.innerHTML = '';
@@ -12533,43 +12533,44 @@ analysisForm.addEventListener('submit', /*#__PURE__*/function () {
             var isSector = index === 0 ? true : false;
             displaySelectionListItem(isSector, markup, selectionList);
           });
-          _context4.next = 26;
+          _context4.next = 27;
           break;
         case 23:
           _context4.prev = 23;
           _context4.t0 = _context4["catch"](10);
+          (0, _button.enableButton)(runAnalysisBtn);
           (0, _alerts.displayAlert)(chartWindow, 'error', _context4.t0.response.data);
-        case 26:
+        case 27:
           if (!ticker) {
-            _context4.next = 41;
+            _context4.next = 42;
             break;
           }
-          _context4.prev = 27;
-          _context4.next = 30;
+          _context4.prev = 28;
+          _context4.next = 31;
           return (0, _runAnalysis.runCompanyAnalysis)(token, ticker, 'Bloomberg', fsString);
-        case 30:
+        case 31:
           _data = _context4.sent;
           displayChart(chartWindow, _data.data.data.HTMLMarkup);
           (0, _button.enableButton)(runAnalysisBtn);
           hideSpinner(chartWindow);
           hideLoadingMessage(chartWindow);
-          _context4.next = 41;
+          _context4.next = 42;
           break;
-        case 37:
-          _context4.prev = 37;
-          _context4.t1 = _context4["catch"](27);
-          console.log(_context4.t1.response.data);
+        case 38:
+          _context4.prev = 38;
+          _context4.t1 = _context4["catch"](28);
+          (0, _button.enableButton)(runAnalysisBtn);
           (0, _alerts.displayAlert)(chartWindow, 'error', _context4.t1.response.data);
-        case 41:
+        case 42:
           sectorListItem = document.querySelectorAll('.selection-list-item')[0];
           sectorListItem.style.backgroundColor = '#d3e9e9';
           sectorListItem.style.borderRadius = '1rem';
           sectorListItem.style.boxShadow = '0 3px 5px rgba(78, 78, 78, 0.089)';
-        case 45:
+        case 46:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[10, 23], [27, 37]]);
+    }, _callee4, null, [[10, 23], [28, 38]]);
   }));
   return function (_x4) {
     return _ref4.apply(this, arguments);

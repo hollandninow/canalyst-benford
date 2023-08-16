@@ -90,6 +90,7 @@ analysisForm.addEventListener('submit', async e => {
           displaySelectionListItem(isSector, markup, selectionList);
         });
       } catch (err) {
+        enableButton(runAnalysisBtn);
         displayAlert(chartWindow, 'error', err.response.data);
       }
     }
@@ -103,7 +104,7 @@ analysisForm.addEventListener('submit', async e => {
         hideSpinner(chartWindow);
         hideLoadingMessage(chartWindow);
       } catch (err) {
-        console.log(err.response.data);
+        enableButton(runAnalysisBtn);
         displayAlert(chartWindow, 'error', err.response.data);
       }
     }
