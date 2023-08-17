@@ -21,7 +21,6 @@ describe('QueryMDSCompanyBulkData', () => {
     try {
       dataCSV = await query.getCompanyBulkDataCSV();
     } catch (err) {
-      console.log(err);
       throw err;
     }
     
