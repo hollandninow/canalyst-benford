@@ -7,17 +7,23 @@ const csin ='6F1SOG0131';
 const modelVersion = 'Q1-2023.22';
 
 describe('QueryMDSCompanyBulkData', () => {
+  let query;
 
   it('should create an API query URL', () => {
-    const query = new QueryMDSCompanyBulkData(token, csin, modelVersion);
+    query = new QueryMDSCompanyBulkData(token, csin, modelVersion);
 
     expect(query.APIQueryURL).toBe(`equity-model-series/${csin}/equity-models/${modelVersion}/bulk-data/historical-data.csv?format=json`);
     expect(query.instance).toBeDefined();
   });
 
   it('should retrieve a file that is defined', async () => {
-    const query = new QueryMDSCompanyBulkData(token, csin, modelVersion);
-    const dataCSV = await query.getCompanyBulkDataCSV();
+    let dataCSV;
+    try {
+      dataCSV = await query.getCompanyBulkDataCSV();
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
     
     expect(dataCSV).toBeDefined();
   });
