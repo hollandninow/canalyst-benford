@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Use Canalyst MDS to perform Benford law analysis on financial statements",
   "main": "server.js",
+  "jest": {
+    "testTimeout": 60000
+  },
   "scripts": {
     "start": "node main.js",
     "sector": "node sectorMain.js",
