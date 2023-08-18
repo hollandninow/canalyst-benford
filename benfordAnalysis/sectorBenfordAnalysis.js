@@ -33,7 +33,8 @@ class SectorBenfordAnalysis {
         )
       );
     } catch (err) {
-      console.error(`${err.code}: ${err.message}`);
+      // console.error(`${err.code}: ${err.message}`);
+      throw err;
     }
 
     const sectorCoverageListArray = sectorListArray.results.filter( model => model.is_in_coverage === true);
@@ -42,7 +43,7 @@ class SectorBenfordAnalysis {
 
     for( let i = 0; i < sectorCoverageListArray.length; i++ ) {
       const ticker = sectorCoverageListArray[i].tickers.Bloomberg;
-      console.log(`Starting analysis of ${ticker}`);
+      // console.log(`Starting analysis of ${ticker}`);
       const startTime = performance.now();
       const bAnalysis = new BenfordAnalysis(this.token, ticker, 'Bloomberg', rateLimiter);
 
@@ -51,7 +52,7 @@ class SectorBenfordAnalysis {
       companyBenfordArray.push(companyBenfordObj);
       
       const endTime = performance.now();
-      console.log(`Finished analysis of ${ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+      // console.log(`Finished analysis of ${ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
     const statementBenfordArray = this.#aggregateSectorBenfordData(companyBenfordArray);
@@ -75,7 +76,8 @@ class SectorBenfordAnalysis {
         sector: this.sector,
       });
     } catch (err) {
-      console.error(`${err.code}: ${err.message}`);
+      // console.error(`${err.code}: ${err.message}`);
+      throw err;
     }
     
     if (+sectorListArray.count === 0)

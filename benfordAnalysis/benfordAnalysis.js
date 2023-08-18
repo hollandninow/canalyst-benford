@@ -45,8 +45,8 @@ class BenfordAnalysis {
     });
 
     if (!this.#equityModelSeriesSet) {
-      startTime = performance.now();
-      console.log(`Fetching equity model series set of ${this.ticker}.`);
+      // startTime = performance.now();
+      // console.log(`Fetching equity model series set of ${this.ticker}.`);
 
       try {
         const res = await fetchAndRetryIfNecessary( () => this.rateLimiter.acquireToken( () => new QueryMDSEquityModelSeriesSet(this.token, {
@@ -64,8 +64,8 @@ class BenfordAnalysis {
         throw err;
       }
 
-      endTime = performance.now();
-      console.log(`Finished fetching equity model series set of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+      // endTime = performance.now();
+      // console.log(`Finished fetching equity model series set of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     }
 
     statementBenfordObj.setCompanyName(this.#equityModelSeriesSet.getCompanyName());
@@ -73,8 +73,8 @@ class BenfordAnalysis {
     statementBenfordObj.setModelVersion(this.#equityModelSeriesSet.getCurrentModelVersion());
 
     if (!this.#companyBulkDataCSV) {
-      startTime = performance.now();
-      console.log(`Fetching bulk data csv of ${this.ticker}.`);
+      // startTime = performance.now();
+      // console.log(`Fetching bulk data csv of ${this.ticker}.`);
 
       try {
         this.#companyBulkDataCSV = await fetchAndRetryIfNecessary( () => this.rateLimiter.acquireToken(
@@ -89,8 +89,8 @@ class BenfordAnalysis {
         throw err;
       }
 
-      endTime = performance.now();
-      console.log(`Finished fetching bulk data csv of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
+      // endTime = performance.now();
+      // console.log(`Finished fetching bulk data csv of ${this.ticker}. Total time: ${Math.round(((endTime - startTime)/1000 + Number.EPSILON) * 100)/100} seconds.`);
     } 
 
     const financialStatementData = new CompanyBulkData(this.#companyBulkDataCSV).getFinancialStatementData(financialStatementStr);

@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
+const compression = require('compression');
 
 const viewsRouter = require('./routers/viewsRouter');
 const analysisRouter = require('./routers/analysisRouter');
@@ -71,6 +72,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Data sanitization against XSS
 app.use(xss());
+
+app.use(compression());
 
 // Timestamps on requests
 app.use((req, res, next) => {
