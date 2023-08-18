@@ -73,6 +73,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Data sanitization against XSS
 app.use(xss());
 
+// Prevent paramter pollution
+app.use(hpp({
+  whitelist: [
+    'token',
+    'ticker',
+    'tickerType',
+    'fsString',
+    'sector',
+  ],
+}));
+
 app.use(compression());
 
 // Timestamps on requests
