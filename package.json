@@ -6,8 +6,12 @@
   "jest": {
     "testTimeout": 60000
   },
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "scripts": {
-    "start": "node main.js",
+    "start": "node server.js",
+    "main": "node main.js",
     "sector": "node sectorMain.js",
     "test": "jest",
     "server": "SET NODE_ENV=production& node server.js",
