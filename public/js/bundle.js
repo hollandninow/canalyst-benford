@@ -12193,7 +12193,7 @@ var loadTickerList = /*#__PURE__*/function () {
           _context.next = 3;
           return (0, _axios.default)({
             method: 'GET',
-            url: "api/v1/list/ticker?token=".concat(token)
+            url: "api/v1/list/ticker"
           });
         case 3:
           res = _context.sent;
@@ -12223,7 +12223,7 @@ var loadSectorList = /*#__PURE__*/function () {
           _context2.next = 3;
           return (0, _axios.default)({
             method: 'GET',
-            url: "api/v1/list/sector?token=".concat(token)
+            url: "api/v1/list/sector"
           });
         case 3:
           res = _context2.sent;

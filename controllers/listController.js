@@ -4,7 +4,7 @@ const QueryMDSCompanyList = require('../queryMDS/queryMDSCompanyList');
 const CompanyList = require('../dataCSV/companyList');
 
 exports.getTickerList = catchAsync(async (req, res, next) => {
-  const { token } = req.query;
+  const token = req.cookies.jwt;
 
   const queryMDS = new QueryMDSCompanyList(token);
   let companyList;
@@ -28,7 +28,7 @@ exports.getTickerList = catchAsync(async (req, res, next) => {
 });
 
 exports.getSectorList = catchAsync(async (req, res, next) => {
-  const { token } = req.query;
+  const token = req.cookies.jwt;
   // getting company list is only to verify token
   const queryMDS = new QueryMDSCompanyList(token);
   let companyList;
