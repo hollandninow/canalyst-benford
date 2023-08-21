@@ -80,7 +80,8 @@ const analyzeSector = async (token, sector, fsString) => {
 }
 
 exports.getSectorAnalysis = catchAsync(async (req, res, next) => {
-  const { token, sector, fsString } = req.query;
+  const { sector, fsString } = req.query;
+  const token = req.cookies.jwt;
 
   let sectorBenfordObj;
   try {

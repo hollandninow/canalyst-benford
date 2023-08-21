@@ -12026,7 +12026,7 @@ var runSectorAnalysis = /*#__PURE__*/function () {
           _context2.next = 3;
           return (0, _axios.default)({
             method: 'GET',
-            url: "api/v1/analysis/sector?sector=".concat(sector, "&fsString=").concat(fsString, "&token=").concat(token)
+            url: "api/v1/analysis/sector?sector=".concat(sector, "&fsString=").concat(fsString)
           });
         case 3:
           res = _context2.sent;

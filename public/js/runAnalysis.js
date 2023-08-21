@@ -17,7 +17,7 @@ export const runSectorAnalysis = async (token, sector, fsString) => {
   try {
     const res = await axios({
       method: 'GET',
-      url: `api/v1/analysis/sector?sector=${sector}&fsString=${fsString}&token=${token}`,
+      url: `api/v1/analysis/sector?sector=${sector}&fsString=${fsString}`,
     });
 
     return res;
