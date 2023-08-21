@@ -37,7 +37,8 @@ const analyzeCompany = async (token, ticker, tickerType, fsString) => {
 }
 
 exports.getCompanyAnalysis = catchAsync(async (req, res, next) => {
-  const { ticker, tickerType, fsString, token } = req.query;
+  const { ticker, tickerType, fsString } = req.query;
+  const token = req.cookies.jwt;
 
   let companyBenfordObj;
   try {
